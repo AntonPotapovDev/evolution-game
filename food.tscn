@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b0giwxp8kbn33"]
+
+[ext_resource type="Script" uid="uid://ds0hbers5pmpw" path="res://food.gd" id="1_8txok"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4x0hx"]
+radius = 16.0
+
+[sub_resource type="Gradient" id="Gradient_4nk4n"]
+offsets = PackedFloat32Array(0, 0.704, 0.716)
+colors = PackedColorArray(0.99215686, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4x0hx"]
+gradient = SubResource("Gradient_4nk4n")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Food" type="Area2D" unique_id=1704881509]
+collision_mask = 2
+script = ExtResource("1_8txok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1645461510]
+shape = SubResource("CircleShape2D_4x0hx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1180590426]
+texture = SubResource("GradientTexture2D_4x0hx")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

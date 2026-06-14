@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://1a3dictbfbag"]
+
+[ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://b0giwxp8kbn33" path="res://food.tscn" id="2_h2yge"]
+
+[node name="Main" type="Node2D" unique_id=1257805047]
+script = ExtResource("1_0xm2m")
+food_scene = ExtResource("2_h2yge")
+
+[node name="Creature" parent="." unique_id=950496937 instance=ExtResource("1_ig7tw")]
+position = Vector2(237, 887)
+
+[node name="Creature2" parent="." unique_id=1277494337 instance=ExtResource("1_ig7tw")]
+position = Vector2(1745, 155)
+
+[node name="FoodTimer" type="Timer" parent="." unique_id=1839282753]
+wait_time = 2.0
+
+[connection signal="timeout" from="FoodTimer" to="." method="_on_food_timer_timeout"]

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bpgwmyo3brpr"]
+
+[ext_resource type="Script" uid="uid://q2iitfw8rwhv" path="res://creature_ai.gd" id="1_urow7"]
+
+[node name="CreatureAI" type="Node2D" unique_id=2121719845]
+script = ExtResource("1_urow7")
+
+[node name="FoodSearchTimer" type="Timer" parent="." unique_id=1388648272]
+wait_time = 0.2
+
+[connection signal="timeout" from="FoodSearchTimer" to="." method="_on_food_search_timer_timeout"]

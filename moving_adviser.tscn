@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://3lgnyqqsno6e"]
+
+[ext_resource type="Script" uid="uid://cl1jf8pqavwrg" path="res://moving_adviser.gd" id="1_067fg"]
+
+[node name="MovingAdviser" type="Node2D" unique_id=1599735220]
+script = ExtResource("1_067fg")
+debug_mode = true
