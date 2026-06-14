@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bnxbn30ept40p"]
+
+[sub_resource type="Gradient" id="Gradient_fd6ru"]
+offsets = PackedFloat32Array(0, 0.704, 0.716)
+colors = PackedColorArray(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bnn61"]
+gradient = SubResource("Gradient_fd6ru")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4nk4n"]
+radius = 63.07139
+
+[node name="DummyCreature" type="Area2D" unique_id=950496937]
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1303914802]
+texture = SubResource("GradientTexture2D_bnn61")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1057436103]
+shape = SubResource("CircleShape2D_4nk4n")

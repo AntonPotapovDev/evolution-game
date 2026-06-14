@@ -3,18 +3,28 @@
 [ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://b0giwxp8kbn33" path="res://food.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bnxbn30ept40p" path="res://dummy_creature.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Node2D" unique_id=1257805047]
 script = ExtResource("1_0xm2m")
 food_scene = ExtResource("2_h2yge")
 
-[node name="Creature" parent="." unique_id=950496937 instance=ExtResource("1_ig7tw")]
-position = Vector2(237, 887)
-
-[node name="Creature2" parent="." unique_id=1277494337 instance=ExtResource("1_ig7tw")]
-position = Vector2(1745, 155)
-
 [node name="FoodTimer" type="Timer" parent="." unique_id=1839282753]
 wait_time = 2.0
+
+[node name="DummyCreature" parent="." unique_id=2069073143 instance=ExtResource("4_1bvp3")]
+position = Vector2(537, 285)
+
+[node name="DummyCreature2" parent="." unique_id=723699508 instance=ExtResource("4_1bvp3")]
+position = Vector2(1214, 445)
+
+[node name="DummyCreature3" parent="." unique_id=1036516265 instance=ExtResource("4_1bvp3")]
+position = Vector2(968, 786)
+
+[node name="Creature" parent="." unique_id=950496937 instance=ExtResource("1_ig7tw")]
+position = Vector2(205, 876)
+
+[node name="Creature2" parent="." unique_id=1915270166 instance=ExtResource("1_ig7tw")]
+position = Vector2(1553, 163)
 
 [connection signal="timeout" from="FoodTimer" to="." method="_on_food_timer_timeout"]

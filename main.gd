@@ -36,4 +36,5 @@ func _process(_delta: float) -> void:
 
 func _on_food_timer_timeout() -> void:
     _spawn_food()
+    _spawn_food()
     $FoodTimer.start()

@@ -3,9 +3,10 @@ extends Node2D
 
 #TODO: need refactoring
 
-const RAY_PAIRS_COUNT: int = 4
-const RAYS_HALF_SPREAD: float = 80.0
-const RAY_LENGTH: float = 800.0
+const FRONT_RAY_LENGTH: float = 600.0
+const MIDDLE_RAY_LENGTH: float = 600.0
+const SIDE_RAY_LENGTH: float = 300.0
+const MIDDLE_RAY_PAIRS_COUNT: int = 3
 
 
 @export var creature: Creature
@@ -15,68 +16,93 @@ const RAY_LENGTH: float = 800.0
 var _debug_info: Array[Dictionary]
 
 
-#func advised_direction(desired_pos: Vector2) -> Vector2:
-    #var space_state = get_world_2d().direct_space_state
-#
-    #var rays = _make_rays(desired_pos)
-#
-    #var weighted_sum = Vector2.ZERO
-#
-    #for ray in rays:
-        #var result = space_state.intersect_ray(ray["ray"])
-        #var penalty = _calculate_penalty(result)
-#
-        #var score = max(0.0, ray["interest"] - penalty)
-        #weighted_sum += score * ray["direction"]
-#
-    #if debug_mode:
-        #queue_redraw()
-#
-    #return weighted_sum.normalized()
-
-
 func advised_direction(desired_pos: Vector2) -> Vector2:
-    var space_state = get_world_2d().direct_space_state
+    var orig_pos = creature.global_position
+    var main_dir = (desired_pos - orig_pos).normalized()
 
-    var rays = _make_rays(desired_pos)
-    
-    var best_score = 0.0
-    var best_idx = 0
-
-    for i in range(rays.size()):
-        var ray = rays[i]
-        var result = space_state.intersect_ray(ray["ray"])
-        var penalty = _calculate_penalty(result)
-        var score = max(0.0, ray["interest"] - penalty)
-
-        if score > best_score:
-            best_score = score
-            best_idx = i
-
-    var weighted_sum = Vector2.ZERO
-
-    for i in range(rays.size()):
-        var ray = rays[i]
-        var result = space_state.intersect_ray(ray["ray"])
-        var penalty = _calculate_penalty(result)
-        var score = max(0.0, ray["interest"] - penalty)
-        if i == best_idx:
-            score *= 10.0
-        elif penalty == 0.0:
-            score *= 10.0
-
-        weighted_sum += score * ray["direction"]
+    var advise = main_dir
+    advise += _cast_front_and_middle_rays(orig_pos, main_dir, desired_pos)
+    advise += _cast_side_rays(orig_pos, main_dir)
 
     if debug_mode:
         queue_redraw()
 
-    return weighted_sum.normalized()
+    return advise.normalized()
 
 
-func _make_ray(orig_pos: Vector2, main_dir: Vector2, angle: float) -> Dictionary:
+func _cast_front_and_middle_rays(orig_pos: Vector2, main_dir: Vector2, desired_pos: Vector2) -> Vector2:
+    var space_state = get_world_2d().direct_space_state
+    var advise = Vector2.ZERO
+
+    var front_ray = _make_front_ray(orig_pos, main_dir)
+    var front_result = space_state.intersect_ray(front_ray["query"])
+
+    if front_result:
+        var hit_dist = orig_pos.distance_to(front_result["position"])
+        if hit_dist <= orig_pos.distance_to(desired_pos):
+            advise += _calculate_perp_avoidance(front_ray, orig_pos, front_result["position"])
+
+    for middle_ray in _make_middle_rays(orig_pos, main_dir):
+        var result = space_state.intersect_ray(middle_ray["query"])
+        if result:
+            advise += _calculate_perp_avoidance(middle_ray, orig_pos, result["position"])
+
+    return advise
+
+
+func _cast_side_rays(orig_pos: Vector2, main_dir: Vector2) -> Vector2:
+    var space_state = get_world_2d().direct_space_state
+    var advise = Vector2.ZERO
+
+    for side_ray in _make_side_rays(orig_pos, main_dir):
+        var result = space_state.intersect_ray(side_ray["query"])
+        if result:
+            var penalty = _calculate_penalty(orig_pos, result["position"], side_ray["length"])
+            advise += -penalty * side_ray["direction"]
+    return advise
+
+
+func _make_front_ray(orig_pos: Vector2, main_dir: Vector2) -> Dictionary:
+    return _make_ray(orig_pos, main_dir, 0, FRONT_RAY_LENGTH)
+
+
+func _make_middle_rays(orig_pos: Vector2, main_dir: Vector2) -> Array[Dictionary]:
+    var rays: Array[Dictionary] = []
+
+    var angle_step = 90.0 / (MIDDLE_RAY_PAIRS_COUNT + 1)
+    var curr_angle = 0.0
+    for _i in range(MIDDLE_RAY_PAIRS_COUNT):
+        curr_angle += angle_step
+        rays.append(_make_ray(orig_pos, main_dir, curr_angle, MIDDLE_RAY_LENGTH))
+        rays.append(_make_ray(orig_pos, main_dir, -curr_angle, MIDDLE_RAY_LENGTH))
+
+    return rays
+
+
+func _make_side_rays(orig_pos: Vector2, main_dir: Vector2) -> Array[Dictionary]:
+    return [
+        _make_ray(orig_pos, main_dir, 90, SIDE_RAY_LENGTH),
+        _make_ray(orig_pos, main_dir, -90, SIDE_RAY_LENGTH),
+    ]
+
+
+func _calculate_perp_avoidance(ray: Dictionary, orig_pos: Vector2, hit_pos: Vector2) -> Vector2:
+    var ray_dir = ray["direction"]
+    var perp = Vector2(-ray_dir.y, ray_dir.x)
+    var avoid_vec = -perp if ray["angle"] > 0 else perp
+
+    var penalty = _calculate_penalty(orig_pos, hit_pos, ray["length"])
+    return penalty * avoid_vec
+
+
+func _calculate_penalty(orig_pos: Vector2, hit_pos: Vector2, ray_length: float) -> float:
+    var distance = orig_pos.distance_to(hit_pos)
+    return 2 * (1.0 - pow(distance / ray_length, 4))
+
+func _make_ray(orig_pos: Vector2, main_dir: Vector2, angle: float, length: float) -> Dictionary:
     var angle_rad = deg_to_rad(angle)
     var ray_dir = main_dir.rotated(angle_rad)
-    var ray_vector = ray_dir * RAY_LENGTH
+    var ray_vector = ray_dir * length
     var ray_query = PhysicsRayQueryParameters2D.create(orig_pos, orig_pos + ray_vector)
     ray_query.collide_with_areas = true
     ray_query.collide_with_bodies = false
@@ -86,43 +112,15 @@ func _make_ray(orig_pos: Vector2, main_dir: Vector2, angle: float) -> Dictionary
     if debug_mode:
         _debug_info.append({
             "from": ray_query.from,
-            "to": ray_query.to,
-            "is_dir": false
+            "to": ray_query.to
         })
 
-    var interest = 1.0
-    #var interest = cos(angle_rad)
-    #var interest = max(0.0, 1.0 - abs(angle) / RAYS_HALF_SPREAD)
-
     return {
-        "ray": ray_query,
+        "query": ray_query,
         "direction": ray_dir,
-        "interest": interest,
+        "angle": angle,
+        "length": length
     }
-
-
-func _make_rays(desired_pos: Vector2) -> Array[Dictionary]:
-    var orig_pos = creature.global_position
-    var main_dir = (desired_pos - orig_pos).normalized()
-
-    var rays: Array[Dictionary] = [ _make_ray(orig_pos, main_dir, 0) ]
-
-    var angle_step = RAYS_HALF_SPREAD / RAY_PAIRS_COUNT
-    var curr_angle = 0.0
-    for _i in range(RAY_PAIRS_COUNT):
-        curr_angle += angle_step
-        rays.append(_make_ray(orig_pos, main_dir, curr_angle))
-        rays.append(_make_ray(orig_pos, main_dir, -curr_angle))
-
-    return rays
-
-
-func _calculate_penalty(ray_intersect_result: Dictionary) -> float:
-    if not ray_intersect_result:
-        return 0.0
-
-    var distance = creature.global_position.distance_to(ray_intersect_result["position"])
-    return 1.0 - distance / RAY_LENGTH
 
 
 func _draw() -> void:

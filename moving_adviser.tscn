@@ -4,4 +4,3 @@
 
 [node name="MovingAdviser" type="Node2D" unique_id=1599735220]
 script = ExtResource("1_067fg")
-debug_mode = true
