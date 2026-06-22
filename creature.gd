@@ -1,16 +1,39 @@
 class_name Creature
 extends Area2D
 
-#TODO: make correct _physics_process
 
 const MAX_ENERGY: float = 300
-const DEFAULT_ENERGY_CONSUMPTION: float = 1
+const STARTING_ENERGY: float = 0.4 * MAX_ENERGY
+const DEFAULT_ENERGY_CONSUMPTION: float = 10.0
 const MAX_HP: int = 10
 const MOVING_SPEED: float = 150.0
 
 
-var _energy: float = MAX_ENERGY
+var _energy: float = STARTING_ENERGY
 var _hp: int = MAX_HP
+
+
+var energy: float:
+    get:
+        return _energy
+
+
+func init_with_state(state_factory: Callable):
+    $CreatureAI.init_state(state_factory)
+
+
+func move_to_target(target: Food, delta: float) -> void:
+    var advised_dir = $MovingAdviser.advised_direction(target.global_position)
+    _move_towards(advised_dir, delta)
+
+
+func move_towards(direction: Vector2, delta: float) -> void:
+    #TODO: use MovingAdviser
+    _move_towards(direction, delta)
+
+
+func make_child(init_direction: Vector2) -> Creature:
+    return Spawner.spawn_creature(global_position, LeavingCreatureState.make_factory(self, init_direction))
 
 
 func change_energy(delta: float):
@@ -24,30 +47,17 @@ func _process_energy_and_hp(delta: float):
         queue_free()
 
 
-func _process_behavior(delta: float):
-    var ai = $CreatureAI
-
-    match ai.state:
-        CreatureAI.AiState.SEARCHING:
-            pass
-        CreatureAI.AiState.MOVING_TO_TARGET:
-            var target = ai.target_food
-            if not target:
-                return
-            var advised_dir = $MovingAdviser.advised_direction(target.global_position)
-            position += advised_dir * MOVING_SPEED * delta
-            #position = position.move_toward(target.position, MOVING_SPEED * delta)
+func _move_towards(direction: Vector2, delta: float) -> void:
+    global_position += direction * MOVING_SPEED * delta
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-    pass # Replace with function body.
+    pass
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-    _process_energy_and_hp(delta)
+func _process(_delta: float) -> void:
+    pass
 
 
 func _physics_process(delta: float) -> void:
-    _process_behavior(delta)
+    _process_energy_and_hp(delta)

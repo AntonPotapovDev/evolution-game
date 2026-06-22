@@ -20,6 +20,7 @@ radius = 63.07139
 
 [node name="Creature" type="Area2D" unique_id=950496937]
 collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_fd6ru")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1303914802]

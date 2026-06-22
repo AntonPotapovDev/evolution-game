@@ -1,7 +1,6 @@
 class_name MovingAdviser
 extends Node2D
 
-#TODO: need refactoring
 
 const FRONT_RAY_LENGTH: float = 600.0
 const MIDDLE_RAY_LENGTH: float = 600.0
@@ -98,6 +97,7 @@ func _calculate_perp_avoidance(ray: Dictionary, orig_pos: Vector2, hit_pos: Vect
 func _calculate_penalty(orig_pos: Vector2, hit_pos: Vector2, ray_length: float) -> float:
     var distance = orig_pos.distance_to(hit_pos)
     return 2 * (1.0 - pow(distance / ray_length, 4))
+
 
 func _make_ray(orig_pos: Vector2, main_dir: Vector2, angle: float, length: float) -> Dictionary:
     var angle_rad = deg_to_rad(angle)
