@@ -22,3 +22,5 @@ func _on_area_entered(area: Area2D) -> void:
     var creature = area as Creature
     if creature:
         _consume(creature)
+    else:
+        queue_free()

@@ -7,10 +7,15 @@ const STARTING_ENERGY: float = 0.4 * MAX_ENERGY
 const DEFAULT_ENERGY_CONSUMPTION: float = 10.0
 const MAX_HP: int = 10
 const MOVING_SPEED: float = 150.0
+const TURN_INERTIA: float = 0.3
 
 
 var _energy: float = STARTING_ENERGY
 var _hp: int = MAX_HP
+
+var _last_moving_direction: Vector2 = Vector2.ZERO
+var _moved_prev_tick: bool = false
+var _moved_this_tick: bool = false
 
 
 var energy: float:
@@ -28,8 +33,8 @@ func move_to_target(target: Food, delta: float) -> void:
 
 
 func move_towards(direction: Vector2, delta: float) -> void:
-    #TODO: use MovingAdviser
-    _move_towards(direction, delta)
+    var advised_dir = $MovingAdviser.correct_direction(direction)
+    _move_towards(advised_dir, delta)
 
 
 func make_child(init_direction: Vector2) -> Creature:
@@ -40,15 +45,19 @@ func change_energy(delta: float):
     _energy = clampf(_energy + delta, 0, MAX_ENERGY)
 
 
-func _process_energy_and_hp(delta: float):
-    change_energy(-DEFAULT_ENERGY_CONSUMPTION * delta)
-
-    if _hp <= 0 or _energy <= 0:
-        queue_free()
+func is_alive() -> bool:
+    return _hp > 0 and _energy > 0
 
 
 func _move_towards(direction: Vector2, delta: float) -> void:
-    global_position += direction * MOVING_SPEED * delta
+    _moved_this_tick = true
+
+    var move_direction = direction
+    if _moved_prev_tick:
+        move_direction = move_direction.lerp(_last_moving_direction, TURN_INERTIA)
+
+    global_position += move_direction * MOVING_SPEED * delta
+    _last_moving_direction = move_direction
 
 
 func _ready() -> void:
@@ -60,4 +69,12 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-    _process_energy_and_hp(delta)
+    change_energy(-DEFAULT_ENERGY_CONSUMPTION * delta)
+    if not is_alive():
+        queue_free()
+        return
+
+    $CreatureAI.update(delta)
+
+    _moved_prev_tick = _moved_this_tick
+    _moved_this_tick = false

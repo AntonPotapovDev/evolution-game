@@ -22,7 +22,7 @@ func init_state(state_factory: Callable):
         _change_state(state_factory.call(self))
 
 
-func _physics_process(delta: float) -> void:
+func update(delta: float) -> void:
     if _current_state:
         _current_state.process_state(delta)
         var new_state = _current_state.try_get_next_state_after_process()

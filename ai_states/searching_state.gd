@@ -37,6 +37,7 @@ func enter_state():
 
 func leave_state():
     _timer.stop()
+    _timer.timeout.disconnect(_on_timer_timeout)
     _ai.remove_child(_timer)
     _timer.queue_free()
     _timer = null
