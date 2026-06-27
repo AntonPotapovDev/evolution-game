@@ -40,9 +40,9 @@ func process_state(delta: float):
 
 func _try_change_state() -> AbstractAiState:
     if not is_instance_valid(_other_creature):
-        return SearchingState.new(_ai)
+        return WanderingState.new(_ai)
     return null
 
 
 func _on_creature_leaved(_area: Area2D):
-    state_change_request.emit(SearchingState.new(_ai))
+    state_change_request.emit(WanderingState.new(_ai))

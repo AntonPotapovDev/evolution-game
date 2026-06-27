@@ -32,8 +32,8 @@ func update(delta: float) -> void:
 
 func _change_state(new_state: AbstractAiState):
     if _current_state:
-        _current_state.leave_state()
         _current_state.state_change_request.disconnect(_change_state)
+        _current_state.leave_state()
 
     while true:
         var actual_state = new_state.try_get_next_state_before_enter()

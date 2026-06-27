@@ -25,7 +25,7 @@ func try_get_next_state_after_process() -> AbstractAiState:
     if is_instance_valid(_child):
         return LeavingCreatureState.new(_ai, _child, Vector2.LEFT)
 
-    return SearchingState.new(_ai)
+    return WanderingState.new(_ai)
 
 
 func enter_state():

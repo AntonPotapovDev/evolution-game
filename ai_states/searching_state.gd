@@ -8,6 +8,9 @@ const SEARCH_RATE: float = 0.2
 var _timer: Timer
 
 
+signal food_found(food: Food)
+
+
 func _init(ai: CreatureAI):
     super(ai)
     _timer = Timer.new()
@@ -70,6 +73,7 @@ func _on_timer_timeout():
     var new_target = _find_nearest_food()
 
     if new_target:
+        food_found.emit(new_target)
         state_change_request.emit(MovingToTargetState.new(_ai, new_target))
     else:
         _timer.start()
