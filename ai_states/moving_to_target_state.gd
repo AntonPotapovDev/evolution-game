@@ -2,11 +2,11 @@ class_name MovingToTargetState
 extends AbstractAiState
 
 
-var _target: Food
+var _target: AbstractFood
 var _background_searching: SearchingState
 
 
-func _init(ai: CreatureAI, target: Food):
+func _init(ai: CreatureAI, target: AbstractFood):
     super(ai)
     _target = target
     _background_searching = SearchingState.new(ai)
@@ -36,10 +36,6 @@ func process_state(delta: float):
         _ai.creature.move_to_target(_target, delta)
 
 
-func _on_closer_target_found(new_target: Food):
-    _target = new_target
-
-
 func _try_change_state() -> AbstractAiState:
     if BreedingState.should_enter_state(_ai.creature):
         return BreedingState.new(_ai)
@@ -48,3 +44,7 @@ func _try_change_state() -> AbstractAiState:
         return WanderingState.new(_ai)
 
     return null
+
+
+func _on_closer_target_found(new_target: AbstractFood):
+    _target = new_target

@@ -23,7 +23,7 @@ func try_get_next_state_before_enter() -> AbstractAiState:
 
 func try_get_next_state_after_process() -> AbstractAiState:
     if is_instance_valid(_child):
-        return LeavingCreatureState.new(_ai, _child, Vector2.LEFT)
+        return LeavingCreatureState.new(_ai, _child, Vector2.LEFT, false)
 
     return WanderingState.new(_ai)
 
@@ -40,3 +40,5 @@ func leave_state():
 func process_state(_delta: float):
     _ai.creature.change_energy(-ENERGY_COST)
     _child = _ai.creature.make_child(Vector2.RIGHT)
+    _child.relatives_ids.append(_ai.creature.id)
+    _ai.creature.relatives_ids.append(_child.id)

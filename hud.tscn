@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b7fmwnq5ujgiw"]
+
+[ext_resource type="Script" uid="uid://dbx674ruyn3qk" path="res://hud.gd" id="1_37p78"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n2snw"]
+font_size = 32
+
+[node name="Hud" type="CanvasLayer" unique_id=90402845]
+script = ExtResource("1_37p78")
+
+[node name="VFlowContainer" type="VFlowContainer" parent="." unique_id=297646098]
+offset_right = 524.0
+offset_bottom = 148.0
+
+[node name="HerbiCount" type="Label" parent="VFlowContainer" unique_id=1709060505]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="CarniCount" type="Label" parent="VFlowContainer" unique_id=843713176]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="OmniCount" type="Label" parent="VFlowContainer" unique_id=1961211358]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")

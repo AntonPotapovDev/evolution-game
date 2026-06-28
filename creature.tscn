@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dw3u84yddl2th" path="res://creature.gd" id="1_fd6ru"]
 [ext_resource type="PackedScene" uid="uid://bpgwmyo3brpr" path="res://creature_ai.tscn" id="2_nugsn"]
 [ext_resource type="PackedScene" uid="uid://3lgnyqqsno6e" path="res://moving_adviser.tscn" id="3_1k0n7"]
+[ext_resource type="Script" uid="uid://k8sypgev3aoq" path="res://attack.gd" id="4_w7hms"]
 
 [sub_resource type="Gradient" id="Gradient_fd6ru"]
 offsets = PackedFloat32Array(0, 0.704, 0.716)
@@ -17,6 +18,60 @@ fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4nk4n"]
 radius = 63.07139
+
+[sub_resource type="Curve2D" id="Curve2D_1k0n7"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -1, -2, 0, 0, 0, 0, 10, -8.671875, 0, 0, 0, 0, 20, -16, 0, 0, 0, 0, 20, -33, 0, 0, 0, 0, 12, -42, 0, 0, 0, 0, -4, -57, 0, 0, 0, 0, -23, -62, 0, 0, 0, 0, -48, -63, 0, 0, 0, 0, -78, -52)
+}
+point_count = 9
+
+[sub_resource type="Animation" id="Animation_1k0n7"]
+resource_name = "Attack"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attack/AttackPath:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 0),
+"points": PackedFloat32Array(0, 0, 0, 0, 0, 1, -0.016666668, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_w7hms"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attack/AttackPath:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.1, 0, 0.1, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_frg5k"]
+_data = {
+&"Attack": SubResource("Animation_1k0n7"),
+&"RESET": SubResource("Animation_w7hms")
+}
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_w7hms"]
+gradient = SubResource("Gradient_fd6ru")
+width = 25
+height = 25
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w7hms"]
+radius = 11.795786
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7hms"]
+size = Vector2(109.5, 32.87501)
 
 [node name="Creature" type="Area2D" unique_id=950496937]
 collision_layer = 2
@@ -34,3 +89,40 @@ creature = NodePath("..")
 
 [node name="MovingAdviser" parent="." unique_id=1599735220 node_paths=PackedStringArray("creature") instance=ExtResource("3_1k0n7")]
 creature = NodePath("..")
+
+[node name="Attack" type="Path2D" parent="." unique_id=142617412 node_paths=PackedStringArray("creature")]
+position = Vector2(39, -30.901642)
+scale = Vector2(1, 1.0491803)
+curve = SubResource("Curve2D_1k0n7")
+script = ExtResource("4_w7hms")
+creature = NodePath("..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Attack" unique_id=91283106]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_frg5k")
+
+[node name="AttackPath" type="PathFollow2D" parent="Attack" unique_id=1286831525]
+position = Vector2(-1, -2)
+rotation = -0.5452101
+
+[node name="Paw" type="Area2D" parent="Attack/AttackPath" unique_id=84446742]
+collision_layer = 0
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Attack/AttackPath/Paw" unique_id=1778372825]
+texture = SubResource("GradientTexture2D_w7hms")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/AttackPath/Paw" unique_id=1088112135]
+shape = SubResource("CircleShape2D_w7hms")
+
+[node name="AttackBox" type="Area2D" parent="Attack" unique_id=515801017]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/AttackBox" unique_id=186751521]
+position = Vector2(-36.25, -49.42187)
+shape = SubResource("RectangleShape2D_w7hms")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="animation_finished" from="Attack/AnimationPlayer" to="Attack" method="_on_animation_finished"]
+[connection signal="area_entered" from="Attack/AttackPath/Paw" to="Attack" method="_on_paw_area_entered"]

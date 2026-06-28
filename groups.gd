@@ -2,4 +2,8 @@ class_name Groups
 extends RefCounted
 
 
-const FOOD: StringName = &"food"
+const NONE: StringName = &"none"
+const CREATURE: StringName = &"creature"
+
+const PLANT_FOOD: StringName = &"plant_food"
+const MEAT_FOOD: StringName = &"meat_food"

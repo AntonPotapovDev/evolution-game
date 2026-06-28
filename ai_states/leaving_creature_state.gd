@@ -4,16 +4,18 @@ extends AbstractAiState
 
 var _other_creature: Creature = null
 var _leave_direction: Vector2 = Vector2.ZERO
+var _is_child = false
 
 
-static func make_factory(other_creature: Creature, leave_direction: Vector2) -> Callable:
-    return LeavingCreatureState.new.bind(other_creature, leave_direction)
+static func make_factory(other_creature: Creature, leave_direction: Vector2, is_child: bool) -> Callable:
+    return LeavingCreatureState.new.bind(other_creature, leave_direction, is_child)
 
 
-func _init(ai: CreatureAI, other_creature: Creature, leave_direction: Vector2):
+func _init(ai: CreatureAI, other_creature: Creature, leave_direction: Vector2, is_child: bool):
     super(ai)
     _other_creature = other_creature
     _leave_direction = leave_direction
+    _is_child = is_child
 
 
 func try_get_next_state_before_enter() -> AbstractAiState:
@@ -25,6 +27,8 @@ func try_get_next_state_after_process() -> AbstractAiState:
 
 
 func enter_state():
+    if _is_child:
+        _ai.creature.on_born()
     if is_instance_valid(_other_creature):
         _other_creature.area_exited.connect(_on_creature_leaved)
 

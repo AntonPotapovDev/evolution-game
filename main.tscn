@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://b7fmwnq5ujgiw" path="res://hud.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node2D" unique_id=1257805047]
 script = ExtResource("1_0xm2m")
@@ -14,5 +15,7 @@ position = Vector2(205, 876)
 
 [node name="Creature2" parent="." unique_id=1915270166 instance=ExtResource("1_ig7tw")]
 position = Vector2(1553, 163)
+
+[node name="Hud" parent="." unique_id=90402845 instance=ExtResource("3_h2yge")]
 
 [connection signal="timeout" from="FoodTimer" to="." method="_on_food_timer_timeout"]

@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Spawner="*uid://dmjmbpbf4a3ag"
+Mutator="*uid://d02vrmc38shyh"
+EventBus="*uid://dlbena1p3v3ap"
 
 [display]
 

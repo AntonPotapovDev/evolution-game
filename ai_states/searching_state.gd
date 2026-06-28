@@ -2,13 +2,22 @@ class_name SearchingState
 extends AbstractAiState
 
 
+class SearchResult extends RefCounted:
+    var food: AbstractFood = null
+    var prey: Creature = null
+
+
 const SEARCH_RATE: float = 0.2
 
 
 var _timer: Timer
 
 
-signal food_found(food: Food)
+signal food_found(food: AbstractFood)
+
+
+static func make_factory() -> Callable:
+    return SearchingState.new
 
 
 func _init(ai: CreatureAI):
@@ -21,9 +30,13 @@ func try_get_next_state_before_enter() -> AbstractAiState:
     if BreedingState.should_enter_state(_ai.creature):
         return BreedingState.new(_ai)
 
-    var new_target = _find_nearest_food()
-    if new_target:
-        return MovingToTargetState.new(_ai, new_target)
+    var search_result = _do_search()
+
+    if search_result.food:
+        return MovingToTargetState.new(_ai, search_result.food)
+
+    if search_result.prey:
+        return ChasingState.new(_ai, search_result.prey)
 
     return null
 
@@ -50,30 +63,79 @@ func process_state(_delta: float):
     pass
 
 
-func _find_nearest_food() -> Food:
-    var food_pickups = _ai.get_tree().get_nodes_in_group(Groups.FOOD)
+func _do_search() -> SearchResult:
+    var result = SearchResult.new()
 
-    var min_distance = INF
-    var new_target: Food = null
-    
-    for node in food_pickups:
-        var pickup = node as Food
-        if not pickup:
+    result.food = _find_nearest_food()
+
+    if _ai.creature.is_hunter:
+        result.prey = _find_nearest_prey()
+
+    return result
+
+
+func _find_nearest_food() -> AbstractFood:
+    var nearest_of_type: Array[AbstractFood]
+    for food_type in _ai.creature.diet:
+        var nearest = _find_nearest_food_of_type(food_type)
+        if not nearest:
             continue
+        nearest_of_type.append(nearest)
 
-        var distance = _ai.creature.position.distance_to(pickup.position)
+    return _pick_nearest_of(nearest_of_type) as AbstractFood
+
+
+func _find_nearest_food_of_type(food_type: StringName) -> AbstractFood:
+    var nodes = _ai.get_tree().get_nodes_in_group(food_type)
+    return _pick_nearest_of(nodes) as AbstractFood
+
+
+func _find_nearest_prey() -> Creature:
+    var nodes = _ai.get_tree().get_nodes_in_group(Groups.CREATURE)
+    return _pick_nearest_of(nodes.filter(_may_be_prey)) as Creature
+
+
+func _may_be_prey(node: Node2D) -> bool:
+    var creature = node as Creature
+    if not creature:
+        return false
+
+    if creature == _ai.creature:
+        return false
+
+    return not _ai.creature.relatives_ids.has(creature.id)
+
+
+func _pick_nearest_of(nodes: Array) -> Node2D:
+    var min_distance = INF
+    var target: Node2D = null
+
+    for node in nodes:
+        var creature = node as Creature
+        if creature:
+            if creature == _ai.creature:
+                continue
+            if _ai.creature.relatives_ids.has(creature.id):
+                continue
+
+        var distance = _ai.creature.global_position.distance_to(node.global_position)
         if distance < min_distance:
             min_distance = distance
-            new_target = pickup
+            target = node
 
-    return new_target
+    return target
 
 
 func _on_timer_timeout():
-    var new_target = _find_nearest_food()
+    var search_result = _do_search()
 
-    if new_target:
-        food_found.emit(new_target)
-        state_change_request.emit(MovingToTargetState.new(_ai, new_target))
-    else:
-        _timer.start()
+    if search_result.food:
+        food_found.emit(search_result.food)
+        state_change_request.emit(MovingToTargetState.new(_ai, search_result.food))
+        return
+
+    if search_result.prey:
+        state_change_request.emit(ChasingState.new(_ai, search_result.prey))
+        return
+
+    _timer.start()
