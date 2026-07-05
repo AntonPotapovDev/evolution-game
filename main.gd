@@ -28,7 +28,6 @@ func _ready() -> void:
             continue
 
         creature.init(creature_config.clone(), Spawner.gen_creature_id(), SearchingState.make_factory())
-        creature.on_born()
         EventBus.creature_spawned.emit(creature_config)
 
     $FoodTimer.start()

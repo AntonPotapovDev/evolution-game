@@ -54,7 +54,8 @@ func _on_paw_area_entered(area: Area2D) -> void:
     if not other_creature:
         return
 
-    other_creature.take_damage(DAMAGE)
+    if _attack_box.overlaps_area(other_creature):
+        other_creature.take_damage(DAMAGE)
 
 
 func _on_animation_finished(_anim_name: StringName) -> void:

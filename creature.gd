@@ -15,7 +15,6 @@ var _id: int
 var _energy: float = STARTING_ENERGY
 var _hp: int = MAX_HP
 var _died: bool = false
-var _invincible: bool = true
 var _relatives_ids: Array[int] = []
 
 var _config: CreatureConfig = null
@@ -81,11 +80,11 @@ func move_towards(direction: Vector2, delta: float) -> void:
     _move_towards(advised_dir, delta)
 
 
-func make_child(init_direction: Vector2) -> Creature:
+func make_child() -> Creature:
     var config = _config.clone()
     Mutator.mutate(config)
 
-    var state_factory = LeavingCreatureState.make_factory(self, init_direction, true)
+    var state_factory = PostBirthState.make_factory(self, true)
     return Spawner.spawn_creature(global_position, config, state_factory)
 
 
@@ -98,10 +97,6 @@ func attack_if_in_range(creature: Creature):
         do_attack()
 
 
-func on_born():
-    _invincible = false
-
-
 func change_energy(delta: float):
     _energy = clampf(_energy + delta, 0.0, MAX_ENERGY)
     if is_zero_approx(_energy):
@@ -110,9 +105,6 @@ func change_energy(delta: float):
 
 
 func take_damage(damage: int):
-    if _invincible:
-        return
-
     _hp = max(0, _hp - damage)
     if _hp == 0:
         _on_death()

@@ -29,7 +29,7 @@ window/size/viewport_height=1080
 
 [layer_names]
 
-2d_physics/layer_1="Items"
+2d_physics/layer_1="Food"
 2d_physics/layer_2="Creatures"
 
 [physics]
