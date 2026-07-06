@@ -6,7 +6,6 @@ const MAX_ENERGY: float = 300
 const STARTING_ENERGY: float = 0.4 * MAX_ENERGY
 const DEFAULT_ENERGY_CONSUMPTION: float = 10.0
 const MAX_HP: int = 10
-const MOVING_SPEED: float = 150.0
 const TURN_INERTIA: float = 0.3
 
 
@@ -81,9 +80,7 @@ func move_towards(direction: Vector2, delta: float) -> void:
 
 
 func make_child() -> Creature:
-    var config = _config.clone()
-    Mutator.mutate(config)
-
+    var config = Mutator.mutate(_config)
     var state_factory = PostBirthState.make_factory(self, true)
     return Spawner.spawn_creature(global_position, config, state_factory)
 
@@ -127,7 +124,7 @@ func _move_towards(direction: Vector2, delta: float) -> void:
     if _moved_prev_tick:
         move_direction = move_direction.lerp(_last_moving_direction, TURN_INERTIA)
 
-    global_position += move_direction * MOVING_SPEED * delta
+    global_position += move_direction * _config.movement_speed * delta
     _last_moving_direction = move_direction
 
     var rotate_angle = _facing_direction.angle_to(move_direction)

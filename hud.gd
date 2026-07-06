@@ -26,18 +26,16 @@ func _ready() -> void:
 
 
 func _update_hud_with_config(config: CreatureConfig, delta: int):
-    var has_plants = config.diet.has(Groups.PLANT_FOOD)
-    var has_meat = config.diet.has(Groups.MEAT_FOOD)
-
-    if has_plants and has_meat:
-        _omni_count += delta
-        _update_omni()
-    elif has_plants:
-        _herbi_count += delta
-        _update_herbi()
-    elif has_meat:
-        _carni_count += delta
-        _update_carni()
+    match config.diet_phase:
+        CreatureConfig.DietPhase.HERBIVORE:
+            _herbi_count += delta
+            _update_herbi()
+        CreatureConfig.DietPhase.CARNIVORE:
+            _carni_count += delta
+            _update_carni()
+        _:
+            _omni_count += delta
+            _update_omni()
 
 
 func _update_herbi():

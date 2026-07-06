@@ -19,15 +19,14 @@ func _ready() -> void:
     _screen_size = get_viewport_rect().size
     _rng = RandomNumberGenerator.new()
 
-    var creature_config = CreatureConfig.make_default()
-
     var creatures = get_tree().get_nodes_in_group(Groups.CREATURE)
     for node in creatures:
         var creature = node as Creature
         if not creature:
             continue
 
-        creature.init(creature_config.clone(), Spawner.gen_creature_id(), SearchingState.make_factory())
+        var creature_config = CreatureConfig.make_default()
+        creature.init(creature_config, Spawner.gen_creature_id(), SearchingState.make_factory())
         EventBus.creature_spawned.emit(creature_config)
 
     $FoodTimer.start()
