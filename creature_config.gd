@@ -10,12 +10,10 @@ enum DietPhase {
 }
 
 
-const DEFAULT_MOVEMENT_SPEED: float = 150.0
-
-
 var diet_phase: DietPhase
 var trait_ids: Array[int]
 var movement_speed: float
+var energy_config: EnergySystem.EnergyConfig
 
 
 var diet: Array[StringName]:
@@ -43,6 +41,16 @@ static func make_default() -> CreatureConfig:
 
     config.diet_phase = DietPhase.HERBIVORE
     config.trait_ids = [] as Array[int]
-    config.movement_speed = DEFAULT_MOVEMENT_SPEED
+    config.movement_speed = DefaultValues.MOVEMENT_SPEED
+    config.energy_config = _make_default_energy_config()
 
+    return config
+
+
+static func _make_default_energy_config() -> EnergySystem.EnergyConfig:
+    var config = EnergySystem.EnergyConfig.new()
+    config.max_energy = DefaultValues.MAX_ENERGY
+    config.general_consumption = DefaultValues.GENERAL_ENERGY_CONSUMPTION
+    config.movement_consumption = DefaultValues.MOVEMENT_ENERGY_CONSUMPTION
+    config.birth_cost = DefaultValues.BIRTH_ENERGY_COST
     return config

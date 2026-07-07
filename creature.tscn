@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dw3u84yddl2th" path="res://creature.gd" id="1_fd6ru"]
 [ext_resource type="PackedScene" uid="uid://bpgwmyo3brpr" path="res://creature_ai.tscn" id="2_nugsn"]
 [ext_resource type="PackedScene" uid="uid://3lgnyqqsno6e" path="res://moving_adviser.tscn" id="3_1k0n7"]
+[ext_resource type="PackedScene" uid="uid://cnf6m5h53xcop" path="res://energy_system.tscn" id="4_frg5k"]
 [ext_resource type="Script" uid="uid://k8sypgev3aoq" path="res://attack.gd" id="4_w7hms"]
 
 [sub_resource type="Gradient" id="Gradient_fd6ru"]
@@ -90,6 +91,8 @@ creature = NodePath("..")
 [node name="MovingAdviser" parent="." unique_id=1599735220 node_paths=PackedStringArray("creature") instance=ExtResource("3_1k0n7")]
 creature = NodePath("..")
 
+[node name="EnergySystem" parent="." unique_id=325380828 instance=ExtResource("4_frg5k")]
+
 [node name="Attack" type="Path2D" parent="." unique_id=142617412 node_paths=PackedStringArray("creature")]
 position = Vector2(39, -30.901642)
 scale = Vector2(1, 1.0491803)
@@ -124,5 +127,6 @@ position = Vector2(-36.25, -49.42187)
 shape = SubResource("RectangleShape2D_w7hms")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="out_of_energy" from="EnergySystem" to="." method="_on_out_of_energy"]
 [connection signal="animation_finished" from="Attack/AnimationPlayer" to="Attack" method="_on_animation_finished"]
 [connection signal="area_entered" from="Attack/AttackPath/Paw" to="Attack" method="_on_paw_area_entered"]

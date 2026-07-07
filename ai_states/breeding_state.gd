@@ -2,8 +2,7 @@ class_name BreedingState
 extends AbstractAiState
 
 
-const ENERGY_THRESHOLD: float = 0.8 * Creature.MAX_ENERGY
-const ENERGY_COST: float = 0.5 * ENERGY_THRESHOLD
+const ENERGY_THRESHOLD_COEF: float = 0.8
 
 
 var _child: Creature = null
@@ -14,7 +13,8 @@ func _init(ai: CreatureAI):
 
 
 static func should_enter_state(creature: Creature) -> bool:
-    return creature.energy >= ENERGY_THRESHOLD
+    var threshold = creature.max_energy * ENERGY_THRESHOLD_COEF
+    return creature.energy > threshold
 
 
 func try_get_next_state_before_enter() -> AbstractAiState:
@@ -38,7 +38,6 @@ func leave_state():
 
 
 func process_state(_delta: float):
-    _ai.creature.change_energy(-ENERGY_COST)
     _child = _ai.creature.make_child()
     _child.relatives_ids.append(_ai.creature.id)
     _ai.creature.relatives_ids.append(_child.id)

@@ -2,10 +2,6 @@ class_name Attack
 extends Path2D
 
 
-const ATTACK_COOLDOWN: float = 1.0
-const DAMAGE: int = 10
-
-
 @export var creature: Creature
 
 
@@ -25,7 +21,7 @@ func do_attack():
 
     _set_enabled(true)
     _is_attacking = true
-    _cooldown_left = ATTACK_COOLDOWN
+    _cooldown_left = DefaultValues.ATTACK_COOLDOWN
     _animation_player.play("Attack")
 
 
@@ -55,7 +51,7 @@ func _on_paw_area_entered(area: Area2D) -> void:
         return
 
     if _attack_box.overlaps_area(other_creature):
-        other_creature.take_damage(DAMAGE)
+        other_creature.take_damage(DefaultValues.ATTACK_DAMAGE)
 
 
 func _on_animation_finished(_anim_name: StringName) -> void:
