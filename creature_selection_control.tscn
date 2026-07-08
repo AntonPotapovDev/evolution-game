@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://d2fy62jalrrde"]
+
+[ext_resource type="Script" uid="uid://hi1agv6civfs" path="res://creature_selection_control.gd" id="1_g637r"]
+[ext_resource type="Texture2D" uid="uid://cf3scuxqwc5mw" path="res://assets/ring_r70_w10_red.svg" id="2_ox4lr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4u5mv"]
+radius = 71.00704
+
+[node name="MouseArea" type="Area2D" unique_id=1775184872]
+process_mode = 3
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_g637r")
+
+[node name="Outline" type="Sprite2D" parent="." unique_id=1237836871]
+visible = false
+texture = ExtResource("2_ox4lr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=605515499]
+shape = SubResource("CircleShape2D_4u5mv")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

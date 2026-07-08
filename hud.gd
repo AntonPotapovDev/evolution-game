@@ -1,57 +1,54 @@
+class_name Hud
 extends CanvasLayer
 
 
-const HERBI_TEXT: StringName = &"Herbi"
-const CARNI_TEXT: StringName = &"Carni"
-const OMNI_TEXT: StringName = &"Omni"
-
-
 var _herbi_count: int = 0
+var _scavenger_count: int = 0
+var _opport_count: int = 0
 var _carni_count: int = 0
-var _omni_count: int = 0
 
 
-@onready var _herbi_label = $VFlowContainer/HerbiCount
-@onready var _carni_label = $VFlowContainer/CarniCount
-@onready var _omni_label = $VFlowContainer/OmniCount
+@onready var _herbi_label: Label = $CountLabels/HerbiCount
+@onready var _scavenger_label: Label = $CountLabels/ScavengerCount
+@onready var _opport_label: Label = $CountLabels/OpportunistCount
+@onready var _carni_label: Label = $CountLabels/CarniCount
 
 
 func _ready() -> void:
     EventBus.creature_spawned.connect(_on_creature_spawned)
     EventBus.creature_died.connect(_on_creature_died)
 
-    _update_herbi()
-    _update_carni()
-    _update_omni()
+    _update_label(_herbi_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.HERBIVORE], _herbi_count)
+    _update_label(_scavenger_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.OMNIVORE_SCAVENGER], _scavenger_count)
+    _update_label(_opport_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.OMNIVORE_OPPORTUNIST], _opport_count)
+    _update_label(_carni_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.CARNIVORE], _carni_count)
+
+
+func _process(_delta: float) -> void:
+    if Input.is_action_just_pressed("pause"):
+        get_tree().paused = not get_tree().paused
 
 
 func _update_hud_with_config(config: CreatureConfig, delta: int):
+    var new_title = Text.LABEL_BY_DIET[config.diet_phase]
+
     match config.diet_phase:
         CreatureConfig.DietPhase.HERBIVORE:
             _herbi_count += delta
-            _update_herbi()
+            _update_label(_herbi_label, new_title, _herbi_count)
+        CreatureConfig.DietPhase.OMNIVORE_SCAVENGER:
+            _scavenger_count += delta
+            _update_label(_scavenger_label, new_title, _scavenger_count)
+        CreatureConfig.DietPhase.OMNIVORE_OPPORTUNIST:
+            _opport_count += delta
+            _update_label(_opport_label, new_title, _opport_count)
         CreatureConfig.DietPhase.CARNIVORE:
             _carni_count += delta
-            _update_carni()
-        _:
-            _omni_count += delta
-            _update_omni()
+            _update_label(_carni_label, new_title, _carni_count)
 
 
-func _update_herbi():
-    _herbi_label.text = _make_label_text(HERBI_TEXT, _herbi_count)
-
-
-func _update_carni():
-    _carni_label.text = _make_label_text(CARNI_TEXT, _carni_count)
-
-
-func _update_omni():
-    _omni_label.text = _make_label_text(OMNI_TEXT, _omni_count)
-
-
-func _make_label_text(prefix: StringName, count: int) -> String:
-    return str(prefix) + ": " + str(count)
+func _update_label(label: Label, title: StringName, count: int):
+    label.text = str(title) + ": " + str(count)
 
 
 func _on_creature_spawned(config: CreatureConfig):

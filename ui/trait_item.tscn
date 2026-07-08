@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cyx41densim57"]
+
+[ext_resource type="Script" uid="uid://boasxk024t5r" path="res://ui/trait_item.gd" id="1_aml2q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aml2q"]
+font_size = 24
+
+[node name="TraitItem" type="FoldableContainer" unique_id=70005148]
+theme_override_font_sizes/font_size = 24
+folded = true
+script = ExtResource("1_aml2q")
+
+[node name="Description" type="Label" parent="." unique_id=562971081]
+visible = false
+layout_mode = 2
+text = "Some description"
+label_settings = SubResource("LabelSettings_aml2q")

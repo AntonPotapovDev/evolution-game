@@ -18,10 +18,6 @@ func try_get_next_state_after_process() -> AbstractAiState:
     return _try_change_state()
 
 
-func enter_state():
-    pass
-
-
 func leave_state():
     _target = null
 

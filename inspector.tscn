@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://mvm85gkgrem2"]
+
+[ext_resource type="Script" uid="uid://mgjhmpvviwk2" path="res://inspector.gd" id="1_y5uk5"]
+[ext_resource type="Texture2D" uid="uid://s73v35kv1een" path="res://assets/close_cross.svg" id="2_pwlwo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_36th4"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_pwlwo"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_y5uk5"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_6em08"]
+font_size = 24
+
+[node name="Inspector" type="Panel" unique_id=960180861]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -392.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("1_y5uk5")
+
+[node name="MainContainer" type="VBoxContainer" parent="." unique_id=211740196]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="TitleBar" type="Panel" parent="MainContainer" unique_id=148224521]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainContainer/TitleBar" unique_id=822926808]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_36th4")
+
+[node name="CloseButton" type="Button" parent="MainContainer/TitleBar" unique_id=2101617168]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 2
+icon = ExtResource("2_pwlwo")
+
+[node name="Content" type="VBoxContainer" parent="MainContainer" unique_id=421365389]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DietLabel" type="Label" parent="MainContainer/Content" unique_id=83720424]
+layout_mode = 2
+mouse_filter = 0
+label_settings = SubResource("LabelSettings_pwlwo")
+
+[node name="HealthLabel" type="Label" parent="MainContainer/Content" unique_id=828387928]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_y5uk5")
+
+[node name="EnergyLabel" type="Label" parent="MainContainer/Content" unique_id=1323089669]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_pwlwo")
+
+[node name="TraitsLabel" type="Label" parent="MainContainer/Content" unique_id=2098793355]
+layout_mode = 2
+text = "Traits:"
+label_settings = SubResource("LabelSettings_6em08")
+
+[node name="TraitContainer" type="ScrollContainer" parent="MainContainer/Content" unique_id=1087509496]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TraiList" type="VBoxContainer" parent="MainContainer/Content/TraitContainer" unique_id=114153095]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[connection signal="pressed" from="MainContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]

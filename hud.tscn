@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b7fmwnq5ujgiw"]
 
 [ext_resource type="Script" uid="uid://dbx674ruyn3qk" path="res://hud.gd" id="1_37p78"]
+[ext_resource type="PackedScene" uid="uid://mvm85gkgrem2" path="res://inspector.tscn" id="2_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n2snw"]
 font_size = 32
@@ -8,18 +9,24 @@ font_size = 32
 [node name="Hud" type="CanvasLayer" unique_id=90402845]
 script = ExtResource("1_37p78")
 
-[node name="VFlowContainer" type="VFlowContainer" parent="." unique_id=297646098]
+[node name="CountLabels" type="VBoxContainer" parent="." unique_id=1417339873]
 offset_right = 524.0
-offset_bottom = 148.0
+offset_bottom = 192.0
 
-[node name="HerbiCount" type="Label" parent="VFlowContainer" unique_id=1709060505]
+[node name="HerbiCount" type="Label" parent="CountLabels" unique_id=1709060505]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n2snw")
 
-[node name="CarniCount" type="Label" parent="VFlowContainer" unique_id=843713176]
+[node name="ScavengerCount" type="Label" parent="CountLabels" unique_id=1961211358]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n2snw")
 
-[node name="OmniCount" type="Label" parent="VFlowContainer" unique_id=1961211358]
+[node name="OpportunistCount" type="Label" parent="CountLabels" unique_id=667481630]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="CarniCount" type="Label" parent="CountLabels" unique_id=843713176]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="Inspector" parent="." unique_id=960180861 instance=ExtResource("2_64ctp")]

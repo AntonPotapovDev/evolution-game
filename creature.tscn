@@ -1,21 +1,13 @@
 [gd_scene format=3 uid="uid://c71ebubvtykbs"]
 
 [ext_resource type="Script" uid="uid://dw3u84yddl2th" path="res://creature.gd" id="1_fd6ru"]
+[ext_resource type="Texture2D" uid="uid://chlq4wcgu1kkr" path="res://assets/circle_r64_green.svg" id="2_6rt7j"]
 [ext_resource type="PackedScene" uid="uid://bpgwmyo3brpr" path="res://creature_ai.tscn" id="2_nugsn"]
 [ext_resource type="PackedScene" uid="uid://3lgnyqqsno6e" path="res://moving_adviser.tscn" id="3_1k0n7"]
 [ext_resource type="PackedScene" uid="uid://cnf6m5h53xcop" path="res://energy_system.tscn" id="4_frg5k"]
 [ext_resource type="Script" uid="uid://k8sypgev3aoq" path="res://attack.gd" id="4_w7hms"]
-
-[sub_resource type="Gradient" id="Gradient_fd6ru"]
-offsets = PackedFloat32Array(0, 0.704, 0.716)
-colors = PackedColorArray(0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bnn61"]
-gradient = SubResource("Gradient_fd6ru")
-width = 128
-height = 128
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[ext_resource type="PackedScene" uid="uid://d2fy62jalrrde" path="res://creature_selection_control.tscn" id="6_rxhes"]
+[ext_resource type="Texture2D" uid="uid://dsbx0w8rsaix3" path="res://assets/circle_r13_green.svg" id="7_17xui"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4nk4n"]
 radius = 63.07139
@@ -61,13 +53,6 @@ _data = {
 &"RESET": SubResource("Animation_w7hms")
 }
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_w7hms"]
-gradient = SubResource("Gradient_fd6ru")
-width = 25
-height = 25
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_w7hms"]
 radius = 11.795786
 
@@ -80,7 +65,7 @@ collision_mask = 3
 script = ExtResource("1_fd6ru")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1303914802]
-texture = SubResource("GradientTexture2D_bnn61")
+texture = ExtResource("2_6rt7j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1057436103]
 shape = SubResource("CircleShape2D_4nk4n")
@@ -113,7 +98,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Attack/AttackPath/Paw" unique_id=1778372825]
-texture = SubResource("GradientTexture2D_w7hms")
+texture = ExtResource("7_17xui")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/AttackPath/Paw" unique_id=1088112135]
 shape = SubResource("CircleShape2D_w7hms")
@@ -125,6 +110,9 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack/AttackBox" unique_id=186751521]
 position = Vector2(-36.25, -49.42187)
 shape = SubResource("RectangleShape2D_w7hms")
+
+[node name="CreatureSelectionControl" parent="." unique_id=1775184872 node_paths=PackedStringArray("creature") instance=ExtResource("6_rxhes")]
+creature = NodePath("..")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="out_of_energy" from="EnergySystem" to="." method="_on_out_of_energy"]

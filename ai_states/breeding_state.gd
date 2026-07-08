@@ -28,13 +28,8 @@ func try_get_next_state_after_process() -> AbstractAiState:
     return WanderingState.new(_ai)
 
 
-func enter_state():
-    pass
-
-
 func leave_state():
     _child = null
-    pass
 
 
 func process_state(_delta: float):

@@ -9,6 +9,10 @@ const TURN_INERTIA: float = 0.3
 @onready var _ai: CreatureAI = $CreatureAI
 @onready var _moving_adviser: MovingAdviser = $MovingAdviser
 @onready var _attack: Attack = $Attack
+@onready var _selection_control = $CreatureSelectionControl
+
+
+signal died
 
 
 var _id: int
@@ -28,6 +32,21 @@ var _moved_this_tick: bool = false
 var id: int:
     get:
         return _id
+
+
+var config: CreatureConfig:
+    get:
+        return _config
+
+
+var selection_control: CreatureSelectionControl:
+    get:
+        return _selection_control
+
+
+var hp: int:
+    get:
+        return _hp
 
 
 var energy: float:
@@ -60,14 +79,14 @@ var relatives_ids: Array[int]:
         return _relatives_ids
 
 
-func init(config: CreatureConfig, new_id: int, initial_state_factory: Callable):
+func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: Callable):
     if _config:
         return
 
     _id = new_id
-    _config = config
+    _config = creature_config
 
-    $EnergySystem.init(config.energy_config)
+    $EnergySystem.init(creature_config.energy_config)
     $CreatureAI.init_state(initial_state_factory)
 
 
@@ -87,10 +106,10 @@ func move_towards(direction: Vector2, delta: float) -> void:
 
 
 func make_child() -> Creature:
-    var config = Mutator.mutate(_config)
+    var child_config = Mutator.mutate(_config)
     var state_factory = PostBirthState.make_factory(self, true)
     _energy_system.on_gave_birth()
-    return Spawner.spawn_creature(global_position, config, state_factory)
+    return Spawner.spawn_creature(global_position, child_config, state_factory)
 
 
 func gain_energy(amount: float):
@@ -118,7 +137,10 @@ func _on_death():
 
     _died = true
     Spawner.spawn_meat_food.call_deferred(global_position)
+
+    died.emit()
     EventBus.creature_died.emit(_config)
+
     queue_free()
 
 
@@ -142,10 +164,6 @@ func _move_towards(direction: Vector2, delta: float) -> void:
 func _ready() -> void:
     z_index = Layers.CREATURE
     add_to_group(Groups.CREATURE)
-
-
-func _process(_delta: float) -> void:
-    pass
 
 
 func _physics_process(delta: float) -> void:

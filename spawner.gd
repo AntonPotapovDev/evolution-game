@@ -1,12 +1,18 @@
 extends Node
 
 
-const CREATURE_SCENE = preload("res://creature.tscn")
-const PLANT_FOOD_SCENE = preload("res://plant_food.tscn")
-const MEAT_FOOD_SCENE = preload("res://meat_food.tscn")
+const CREATURE_SCENE: PackedScene = preload("res://creature.tscn")
+const PLANT_FOOD_SCENE: PackedScene = preload("res://plant_food.tscn")
+const MEAT_FOOD_SCENE: PackedScene = preload("res://meat_food.tscn")
 
 
+var _game_world: Node2D = null
 var _last_creature_id: int = -1
+
+
+func init(game_world: Node2D):
+    if not _game_world:
+        _game_world = game_world
 
 
 func spawn_creature(global_position: Vector2, config: CreatureConfig, initial_state_factory: Callable) -> Creature:
@@ -40,4 +46,4 @@ func gen_creature_id() -> int:
 
 func _add_object_to_scene(obj: Node2D, global_position: Vector2):
     obj.global_position = global_position
-    get_tree().current_scene.add_child(obj)
+    _game_world.add_child(obj)

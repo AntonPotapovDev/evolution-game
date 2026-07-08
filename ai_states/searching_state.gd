@@ -59,10 +59,6 @@ func leave_state():
     _timer = null
 
 
-func process_state(_delta: float):
-    pass
-
-
 func _do_search() -> SearchResult:
     var result = SearchResult.new()
 

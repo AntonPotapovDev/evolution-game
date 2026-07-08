@@ -7,7 +7,6 @@ const GAIN_TRAIT_MUTATION: float = 0.5
 
 
 var _rng: RandomNumberGenerator
-var _trait_pools: TraitPools
 
 
 func mutate(config: CreatureConfig) -> CreatureConfig:
@@ -22,7 +21,7 @@ func mutate(config: CreatureConfig) -> CreatureConfig:
         _mutate_traits(new_config)
 
     for trait_id in new_config.trait_ids:
-        _trait_pools.get_by_id(trait_id).patch_config(new_config)
+        TraitPool.get_by_id(trait_id).patch_config(new_config)
 
     return new_config
 
@@ -40,7 +39,7 @@ func _mutate_diet(config: CreatureConfig):
 
 func _mutate_traits(config: CreatureConfig):
     if _check_chance(GAIN_TRAIT_MUTATION):
-        var new_trait = _trait_pools.pick_id(config)
+        var new_trait = TraitPool.pick_id(config)
         if new_trait != null:
             config.trait_ids.append(new_trait)
         return
@@ -58,4 +57,3 @@ func _check_chance(chance: float) -> bool:
 
 func _ready() -> void:
     _rng = RandomNumberGenerator.new()
-    _trait_pools = TraitPools.new()

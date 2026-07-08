@@ -1,4 +1,4 @@
-class_name TraitPools
+class_name TraitPool
 extends RefCounted
 
 
@@ -19,7 +19,7 @@ static func _static_init() -> void:
         id += 1
 
 
-func pick_id(conifg: CreatureConfig) -> Variant:
+static func pick_id(conifg: CreatureConfig) -> Variant:
     var available_ids = _trait_list.filter(
         func(id) -> bool: return not conifg.trait_ids.has(id))
 
@@ -29,5 +29,5 @@ func pick_id(conifg: CreatureConfig) -> Variant:
     return available_ids.pick_random()
 
 
-func get_by_id(id: int) -> AbstractTrait:
+static func get_by_id(id: int) -> AbstractTrait:
     return _traits_by_id[id]

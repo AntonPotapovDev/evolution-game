@@ -8,10 +8,6 @@ extends Node2D
 var _current_state: AbstractAiState = null
 
 
-func _process(_delta: float) -> void:
-    pass
-
-
 func init_state(state_factory: Callable):
     if not _current_state:
         _change_state(state_factory.call(self))
