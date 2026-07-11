@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dtgolwwxu4elm"]
 
-[ext_resource type="Script" uid="uid://mf8jdrx50ul3" path="res://meat_food.gd" id="1_kbejq"]
+[ext_resource type="Script" uid="uid://mf8jdrx50ul3" path="res://food/meat_food/meat_food.gd" id="1_kbejq"]
 [ext_resource type="Texture2D" uid="uid://0uex6uxck4t8" path="res://assets/circle_r16_pink.svg" id="2_tucuq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4x0hx"]

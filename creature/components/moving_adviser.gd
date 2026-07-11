@@ -34,7 +34,7 @@ static var _angles_order: Array[int]
 
 
 @export var creature: Creature
-@export var debug_mode: bool
+@export var debug_mode: bool = false
 
 
 @onready var _space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state

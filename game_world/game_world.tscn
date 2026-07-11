@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://1a3dictbfbag"]
 
-[ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://game_world.gd" id="1_ea1x0"]
-[ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature.tscn" id="2_e08lw"]
+[ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://game_world/game_world.gd" id="1_ea1x0"]
+[ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature/creature.tscn" id="2_e08lw"]
 
 [node name="GameWorld" type="Node2D" unique_id=1257805047]
 script = ExtResource("1_ea1x0")

@@ -1,9 +1,9 @@
 extends Node
 
 
-const CREATURE_SCENE: PackedScene = preload("res://creature.tscn")
-const PLANT_FOOD_SCENE: PackedScene = preload("res://plant_food.tscn")
-const MEAT_FOOD_SCENE: PackedScene = preload("res://meat_food.tscn")
+const CREATURE_SCENE: PackedScene = preload("res://creature/creature.tscn")
+const PLANT_FOOD_SCENE: PackedScene = preload("res://food/plant_food/plant_food.tscn")
+const MEAT_FOOD_SCENE: PackedScene = preload("res://food/meat_food/meat_food.tscn")
 
 
 var _game_world: Node2D = null

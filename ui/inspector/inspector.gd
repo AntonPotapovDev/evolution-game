@@ -2,7 +2,7 @@ class_name Inspector
 extends Panel
 
 
-const TRAIT_ITEM_SCENE: PackedScene = preload("res://ui/trait_item.tscn")
+const TRAIT_ITEM_SCENE: PackedScene = preload("res://ui/trait_item/trait_item.tscn")
 
 
 @onready var _title_label: Label = $MainContainer/TitleBar/TitleLabel

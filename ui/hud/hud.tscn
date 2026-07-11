@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b7fmwnq5ujgiw"]
 
-[ext_resource type="Script" uid="uid://dbx674ruyn3qk" path="res://hud.gd" id="1_37p78"]
-[ext_resource type="PackedScene" uid="uid://mvm85gkgrem2" path="res://inspector.tscn" id="2_64ctp"]
+[ext_resource type="Script" uid="uid://dbx674ruyn3qk" path="res://ui/hud/hud.gd" id="1_37p78"]
+[ext_resource type="PackedScene" uid="uid://mvm85gkgrem2" path="res://ui/inspector/inspector.tscn" id="2_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n2snw"]
 font_size = 32

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://mvm85gkgrem2"]
 
-[ext_resource type="Script" uid="uid://mgjhmpvviwk2" path="res://inspector.gd" id="1_y5uk5"]
+[ext_resource type="Script" uid="uid://mgjhmpvviwk2" path="res://ui/inspector/inspector.gd" id="1_y5uk5"]
 [ext_resource type="Texture2D" uid="uid://s73v35kv1een" path="res://assets/close_cross.svg" id="2_pwlwo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_36th4"]
