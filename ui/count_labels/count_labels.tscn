@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://2khetq2gljxr"]
+
+[ext_resource type="Script" uid="uid://clphlor6pn4du" path="res://ui/count_labels/count_labels.gd" id="1_1r4ba"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n2snw"]
+font_size = 32
+
+[node name="CountLabels" type="VBoxContainer" unique_id=2065006069]
+offset_right = 524.0
+offset_bottom = 192.0
+script = ExtResource("1_1r4ba")
+
+[node name="HerbiCount" type="Label" parent="." unique_id=1306181668]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="ScavengerCount" type="Label" parent="." unique_id=2080954146]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="OpportunistCount" type="Label" parent="." unique_id=1578637957]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")
+
+[node name="CarniCount" type="Label" parent="." unique_id=1881016956]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_n2snw")

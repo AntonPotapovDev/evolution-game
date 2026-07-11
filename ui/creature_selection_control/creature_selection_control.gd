@@ -15,6 +15,10 @@ var selected: bool:
         _outline.visible = value
 
 
+func _ready() -> void:
+    z_index = Layers.UI
+
+
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
     var mouse_button_event = event as InputEventMouseButton
     if not mouse_button_event:
