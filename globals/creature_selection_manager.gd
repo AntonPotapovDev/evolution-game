@@ -33,3 +33,6 @@ func _drop_selection():
         _selected_creature.died.disconnect(on_reset_selection_requested)
         _selected_creature.selection_control.selected = false
         _selected_creature = null
+
+func _exit_tree() -> void:
+    _drop_selection()

@@ -25,8 +25,9 @@ func do_attack():
     _animation_player.play("Attack")
 
 
-func in_attack_range(other_creature: Creature) -> bool:
-    return _attack_box.overlaps_area(other_creature)
+func attack_if_in_range(other_creature: Creature):
+    if _attack_box.overlaps_area(other_creature):
+        do_attack()
 
 
 func _set_enabled(enabled: bool):
@@ -51,7 +52,7 @@ func _on_paw_area_entered(area: Area2D) -> void:
         return
 
     if _attack_box.overlaps_area(other_creature):
-        other_creature.take_damage(DefaultValues.ATTACK_DAMAGE)
+        other_creature.health.take_damage(DefaultValues.ATTACK_DAMAGE)
 
 
 func _on_animation_finished(_anim_name: StringName) -> void:

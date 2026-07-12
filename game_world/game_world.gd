@@ -51,4 +51,3 @@ func _spawn_food() -> void:
 func _on_food_timer_timeout() -> void:
     _spawn_food()
     _spawn_food()
-    _food_timer.start()

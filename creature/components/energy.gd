@@ -1,22 +1,25 @@
-class_name EnergySystem
-extends Node
+class_name Energy
+extends RefCounted
 
 
-class EnergyConfig extends RefCounted:
+class Config extends RefCounted:
     var max_energy: float
     var general_consumption: float
     var movement_consumption: float
     var birth_cost: float
 
 
-signal out_of_energy
+var _creature: Creature = null
+var _energy: float = 0.0
+var _config: Config = null
 
 
-var _energy: float
-var _config: EnergyConfig = null
+var config: Config:
+    get:
+        return _config
 
 
-var energy: float:
+var current_energy: float:
     get:
         return _energy
 
@@ -26,12 +29,10 @@ var is_out_of_energy: bool:
         return is_zero_approx(_energy)
 
 
-func init(config: EnergyConfig):
-    if _config:
-        return
-
-    _energy = config.birth_cost
-    _config = config
+func _init(creature: Creature, init_config: Config):
+    _creature = creature
+    _energy = init_config.birth_cost
+    _config = init_config
 
 
 func update(delta: float):
@@ -56,4 +57,4 @@ func _change_energy(delta_energy: float):
     _energy = clampf(_energy + delta_energy, 0.0, _config.max_energy)
     if is_out_of_energy:
         _energy = 0.0
-        out_of_energy.emit()
+        _creature.death.on_death()

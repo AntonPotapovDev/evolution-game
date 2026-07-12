@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dw3u84yddl2th" path="res://creature/creature.gd" id="1_uiwjy"]
 [ext_resource type="Texture2D" uid="uid://chlq4wcgu1kkr" path="res://assets/circle_r64_green.svg" id="2_6rt7j"]
-[ext_resource type="Script" uid="uid://blnl26g4o7qs8" path="res://creature/components/energy_system.gd" id="3_uiwjy"]
-[ext_resource type="Script" uid="uid://q2iitfw8rwhv" path="res://creature/components/creature_ai.gd" id="4_55ljp"]
-[ext_resource type="Script" uid="uid://cl1jf8pqavwrg" path="res://creature/components/moving_adviser.gd" id="5_wk5yt"]
+[ext_resource type="Script" uid="uid://cl1jf8pqavwrg" path="res://creature/components/movement/moving_adviser.gd" id="5_wk5yt"]
 [ext_resource type="PackedScene" uid="uid://bkuy6edwmo6s3" path="res://creature/components/attack/attack.tscn" id="6_q1743"]
 [ext_resource type="PackedScene" uid="uid://d2fy62jalrrde" path="res://ui/creature_selection_control/creature_selection_control.tscn" id="6_rxhes"]
 
@@ -22,15 +20,6 @@ texture = ExtResource("2_6rt7j")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1057436103]
 shape = SubResource("CircleShape2D_4nk4n")
 
-[node name="EnergySystem" type="Node" parent="." unique_id=148331635]
-script = ExtResource("3_uiwjy")
-metadata/_custom_type_script = "uid://blnl26g4o7qs8"
-
-[node name="CreatureAI" type="Node2D" parent="." unique_id=775523635 node_paths=PackedStringArray("creature")]
-script = ExtResource("4_55ljp")
-creature = NodePath("..")
-metadata/_custom_type_script = "uid://q2iitfw8rwhv"
-
 [node name="MovingAdviser" type="Node2D" parent="." unique_id=19830374 node_paths=PackedStringArray("creature")]
 script = ExtResource("5_wk5yt")
 creature = NodePath("..")
@@ -42,6 +31,3 @@ creature = NodePath("..")
 
 [node name="CreatureSelectionControl" parent="." unique_id=1775184872 node_paths=PackedStringArray("creature") instance=ExtResource("6_rxhes")]
 creature = NodePath("..")
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="out_of_energy" from="EnergySystem" to="." method="_on_out_of_energy"]

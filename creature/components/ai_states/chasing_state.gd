@@ -5,8 +5,8 @@ extends AbstractAiState
 var _target: Creature
 
 
-func _init(ai: CreatureAI, target: Creature):
-    super(ai)
+func _init(host_ai: CreatureAI, target: Creature):
+    super(host_ai)
     _target = target
 
 
@@ -26,13 +26,13 @@ func process_state(delta: float):
     if not is_instance_valid(_target):
         return
 
-    _ai.creature.attack_if_in_range(_target)
-    if not _target.dead:
-        _ai.creature.rush_to_target(_target, delta)
+    actor.attack.attack_if_in_range(_target)
+    if not _target.death.dead:
+        actor.movement.rush_to_target(_target, delta)
 
 
 func _try_change_state() -> AbstractAiState:
     if not is_instance_valid(_target):
-        return WanderingState.new(_ai)
+        return WanderingState.new(ai)
 
     return null

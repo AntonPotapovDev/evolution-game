@@ -16,7 +16,7 @@ func consume(consuming_creature: Creature):
     if _is_consumed:
         return
 
-    consuming_creature.gain_energy(_energy_boost)
+    consuming_creature.energy.gain(_energy_boost)
     _is_consumed = true
 
     queue_free()

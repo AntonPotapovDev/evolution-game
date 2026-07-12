@@ -2,31 +2,26 @@ class_name Creature
 extends Area2D
 
 
-const TURN_INERTIA: float = 0.3
-
-
-@onready var _energy_system: EnergySystem = $EnergySystem
-@onready var _ai: CreatureAI = $CreatureAI
-@onready var _moving_adviser: MovingAdviser = $MovingAdviser
 @onready var _attack: Attack = $Attack
 @onready var _selection_control = $CreatureSelectionControl
 
 
+@warning_ignore("unused_signal")
 signal died
 
 
 var _id: int
-
-var _hp: int = DefaultValues.MAX_HP
-var _died: bool = false
-var _relatives_ids: Array[int] = []
-
 var _config: CreatureConfig = null
 
-var _facing_direction: Vector2 = Vector2.UP
-var _last_moving_direction: Vector2 = Vector2.ZERO
-var _moved_prev_tick: bool = false
-var _moved_this_tick: bool = false
+var _ai: CreatureAI = null
+var _health: Health = null
+var _energy: Energy = null
+var _movement: Movement = null
+var _eating: Eating = null
+var _breeding: Breeding = null
+var _death: Death = null
+
+var _updatable_components: Array = []
 
 
 var id: int:
@@ -39,155 +34,83 @@ var config: CreatureConfig:
         return _config
 
 
+var health: Health:
+    get():
+        return _health
+
+
+var energy: Energy:
+    get:
+        return _energy
+
+
+var movement: Movement:
+    get:
+        return _movement
+
+
+var eating: Eating:
+    get:
+        return _eating
+
+
+var breeding: Breeding:
+    get:
+        return _breeding
+
+
+var death: Death:
+    get:
+        return _death
+
+
+var attack: Attack:
+    get:
+        return _attack
+
+
 var selection_control: CreatureSelectionControl:
     get:
         return _selection_control
-
-
-var hp: int:
-    get:
-        return _hp
-
-
-var energy: float:
-    get:
-        return _energy_system.energy
-
-
-var max_energy: float:
-    get:
-        return _config.energy_config.max_energy
-
-
-var dead: bool:
-    get:
-        return _died
-
-
-var diet: Array[StringName]:
-    get:
-        return _config.diet
-
-
-var is_hunter: bool:
-    get:
-        return _config.is_hunter
-
-
-var relatives_ids: Array[int]:
-    get:
-        return _relatives_ids
 
 
 func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: Callable):
     if _config:
         return
 
+    z_index = Layers.CREATURE
+
     _id = new_id
     _config = creature_config
 
-    $EnergySystem.init(creature_config.energy_config)
-    $CreatureAI.init_state(initial_state_factory)
+    _health = Health.new(self)
+    _energy = Energy.new(self, creature_config.energy_config)
+    _movement = Movement.new(self, $MovingAdviser)
+    _eating = Eating.new(self)
+    area_entered.connect(_eating.on_creature_area_entered)
+    _breeding = Breeding.new(self)
+    _death = Death.new(self)
 
+    _ai = CreatureAI.new(self, initial_state_factory)
 
-func move_to_target(target: Node2D, delta: float) -> void:
-    var advised_dir = _moving_adviser.advised_direction(target.global_position)
-    _move_towards(advised_dir, delta)
-
-
-func rush_to_target(target: Node2D, delta: float) -> void:
-    var direction = (target.global_position - global_position).normalized()
-    _move_towards(direction, delta)
-
-
-func move_towards(direction: Vector2, delta: float) -> void:
-    var advised_dir = _moving_adviser.correct_direction(direction)
-    _move_towards(advised_dir, delta)
-
-
-func make_child() -> Creature:
-    var child_config = Mutator.mutate(_config)
-    var state_factory = PostBirthState.make_factory(self, true)
-    _energy_system.on_gave_birth()
-    return Spawner.spawn_creature(global_position, child_config, state_factory)
-
-
-func gain_energy(amount: float):
-    _energy_system.gain(amount)
-
-
-func do_attack():
-    _attack.do_attack()
-
-
-func attack_if_in_range(creature: Creature):
-    if _attack.in_attack_range(creature):
-        do_attack()
-
-
-func take_damage(damage: int):
-    _hp = max(0, _hp - damage)
-    if _hp == 0:
-        _on_death()
-
-
-func _on_death():
-    if _died:
-        return
-
-    _died = true
-    Spawner.spawn_meat_food.call_deferred(global_position)
-
-    died.emit()
-    EventBus.creature_died.emit(_config)
-
-    queue_free()
-
-
-func _move_towards(direction: Vector2, delta: float) -> void:
-    _moved_this_tick = true
-
-    var move_direction = direction
-    if _moved_prev_tick:
-        move_direction = move_direction.lerp(_last_moving_direction, TURN_INERTIA)
-
-    global_position += move_direction * _config.movement_speed * delta
-    _last_moving_direction = move_direction
-
-    var rotate_angle = _facing_direction.angle_to(move_direction)
-    rotate(rotate_angle)
-    _facing_direction = move_direction
-
-    _energy_system.on_movement(_config.movement_speed, delta)
+    _updatable_components = [
+        _energy,
+        _ai,
+        _movement
+    ]
 
 
 func _ready() -> void:
-    z_index = Layers.CREATURE
     add_to_group(Groups.CREATURE)
 
 
+func _exit_tree() -> void:
+    _ai.deinit()
+    area_entered.disconnect(_eating.on_creature_area_entered)
+
+
 func _physics_process(delta: float) -> void:
-    if _died:
-        return
-
-    _energy_system.update(delta)
-    if _died:
-        return
-
-    _ai.update(delta)
-
-    _moved_prev_tick = _moved_this_tick
-    _moved_this_tick = false
-
-
-func _on_area_entered(area: Area2D) -> void:
-    var food = area as AbstractFood
-    if not food:
-        return
-
-    if _config.diet.has(food.type):
-        food.consume(self)
-
-
-func _on_out_of_energy():
-    _on_death()
+    for component in _updatable_components:
+        if _death.dead:
+            return
+        component.update(delta)

@@ -1,16 +1,23 @@
 class_name CreatureAI
-extends Node2D
+extends RefCounted
 
 
-@export var creature: Creature
-
-
+var _creature: Creature
 var _current_state: AbstractAiState = null
 
 
-func init_state(state_factory: Callable):
-    if not _current_state:
-        _change_state(state_factory.call(self))
+var creature: Creature:
+    get:
+        return _creature
+
+
+func _init(owner: Creature, state_factory: Callable):
+    _creature = owner
+    _change_state(state_factory.call(self))
+
+
+func deinit() -> void:
+    _clean_state()
 
 
 func update(delta: float) -> void:
@@ -33,19 +40,15 @@ func _change_state(new_state: AbstractAiState):
         new_state = actual_state
 
     _current_state = new_state
-    _current_state.state_change_request.connect(_change_state)
     _current_state.enter_state()
+    _current_state.state_change_request.connect(_change_state)
 
 
 func _clean_state():
     if not _current_state:
         return
 
-    _current_state.leave_state()
     if _current_state.state_change_request.is_connected(_change_state):
         _current_state.state_change_request.disconnect(_change_state)
+    _current_state.leave_state()
     _current_state = null
-
-
-func _exit_tree() -> void:
-    _clean_state()

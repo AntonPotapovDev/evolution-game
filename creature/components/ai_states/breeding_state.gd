@@ -8,13 +8,13 @@ const ENERGY_THRESHOLD_COEF: float = 0.8
 var _child: Creature = null
 
 
-func _init(ai: CreatureAI):
-    super(ai)
+func _init(host_ai: CreatureAI):
+    super(host_ai)
 
 
 static func should_enter_state(creature: Creature) -> bool:
-    var threshold = creature.max_energy * ENERGY_THRESHOLD_COEF
-    return creature.energy > threshold
+    var threshold = creature.energy.config.max_energy * ENERGY_THRESHOLD_COEF
+    return creature.energy.current_energy > threshold
 
 
 func try_get_next_state_before_enter() -> AbstractAiState:
@@ -23,9 +23,9 @@ func try_get_next_state_before_enter() -> AbstractAiState:
 
 func try_get_next_state_after_process() -> AbstractAiState:
     if is_instance_valid(_child):
-        return PostBirthState.new(_ai, _child, false)
+        return PostBirthState.new(ai, _child, false)
 
-    return WanderingState.new(_ai)
+    return WanderingState.new(ai)
 
 
 func leave_state():
@@ -33,6 +33,4 @@ func leave_state():
 
 
 func process_state(_delta: float):
-    _child = _ai.creature.make_child()
-    _child.relatives_ids.append(_ai.creature.id)
-    _ai.creature.relatives_ids.append(_child.id)
+    _child = actor.breeding.make_child()

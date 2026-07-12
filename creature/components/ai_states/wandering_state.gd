@@ -6,15 +6,13 @@ const CHANGE_DIRECTON_RATE: float = 4.0
 
 
 var _background_searching: SearchingState
-var _timer: Timer
 var _direction: Vector2
+var _timer: SceneTreeTimer = null
 
 
-func _init(ai: CreatureAI):
-    super(ai)
+func _init(host_ai: CreatureAI):
+    super(host_ai)
     _background_searching = SearchingState.new(ai)
-    _timer = Timer.new()
-    _timer.wait_time = CHANGE_DIRECTON_RATE
     _set_random_direction()
 
 
@@ -27,9 +25,7 @@ func try_get_next_state_after_process() -> AbstractAiState:
 
 
 func enter_state():
-    _timer.timeout.connect(_on_timer_timeout)
-    _ai.add_child(_timer)
-    _timer.start()
+    _start_timer()
 
     _background_searching.state_change_request.connect(_on_searching_state_change)
     _background_searching.enter_state()
@@ -39,26 +35,31 @@ func leave_state():
     _background_searching.state_change_request.disconnect(_on_searching_state_change)
     _background_searching.leave_state()
 
-    _timer.stop()
-    _timer.timeout.disconnect(_on_timer_timeout)
-    _ai.remove_child(_timer)
-    _timer.queue_free()
-    _timer = null
+    _reset_timer()
 
 
 func process_state(delta: float):
-    _ai.creature.move_towards(_direction, delta)
+    actor.movement.move_towards(_direction, delta)
 
 
 func _rotate_direction_random():
-    var rng = RandomNumberGenerator.new()
-    _direction = _direction.rotated(rng.randf_range(PI / 2, PI))
+    _direction = _direction.rotated(randf_range(PI / 2, PI))
 
 
 func _set_random_direction():
-    var rng = RandomNumberGenerator.new()
     var dir = Vector2.UP
-    _direction = dir.rotated(rng.randf_range(0, TAU))
+    _direction = dir.rotated(randf_range(0, TAU))
+
+
+func _start_timer():
+    _timer = actor.get_tree().create_timer(CHANGE_DIRECTON_RATE)
+    _timer.timeout.connect(_on_timer_timeout)
+
+
+func _reset_timer():
+    if _timer:
+        _timer.timeout.disconnect(_on_timer_timeout)
+        _timer = null
 
 
 func _on_searching_state_change(new_state: AbstractAiState):
@@ -67,3 +68,5 @@ func _on_searching_state_change(new_state: AbstractAiState):
 
 func _on_timer_timeout():
     _rotate_direction_random()
+    _reset_timer()
+    _start_timer()

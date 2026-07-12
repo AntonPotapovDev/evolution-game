@@ -6,8 +6,8 @@ var _target: AbstractFood
 var _background_searching: SearchingState
 
 
-func _init(ai: CreatureAI, target: AbstractFood):
-    super(ai)
+func _init(host_ai: CreatureAI, target: AbstractFood):
+    super(host_ai)
     _target = target
     _background_searching = SearchingState.new(ai)
 
@@ -33,18 +33,19 @@ func leave_state():
 
 func process_state(delta: float):
     if is_instance_valid(_target):
-        _ai.creature.move_to_target(_target, delta)
+        actor.movement.move_to_target(_target, delta)
 
 
 func _try_change_state() -> AbstractAiState:
-    if BreedingState.should_enter_state(_ai.creature):
-        return BreedingState.new(_ai)
+    if BreedingState.should_enter_state(actor):
+        return BreedingState.new(ai)
 
     if not is_instance_valid(_target):
-        return WanderingState.new(_ai)
+        return WanderingState.new(ai)
 
     return null
 
 
 func _on_closer_target_found(new_target: AbstractFood):
-    _target = new_target
+    if _target != new_target:
+        _target = new_target

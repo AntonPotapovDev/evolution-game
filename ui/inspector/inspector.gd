@@ -27,12 +27,12 @@ func _process(_delta: float) -> void:
         return
 
     _update_label(_health_label, Text.HEALTH, ": ",
-        _make_param_text(_display_creature.hp, DefaultValues.MAX_HP))
+        _make_param_text(_display_creature.health.hp, DefaultValues.MAX_HP))
 
     _update_label(_energy_label, Text.ENERGY, ": ",
         _make_param_text(
-            floori(_display_creature.energy),
-            int(_display_creature.config.energy_config.max_energy)))
+            floori(_display_creature.energy.current_energy),
+            int(_display_creature.energy.config.max_energy)))
 
 
 func _update_label(label: Label, title: StringName, separator: String, value: String):

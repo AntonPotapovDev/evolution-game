@@ -10,8 +10,8 @@ static func make_factory(other_creature: Creature, is_child: bool) -> Callable:
     return PostBirthState.new.bind(other_creature, is_child)
 
 
-func _init(ai: CreatureAI, other_creature: Creature, is_child: bool):
-    super(ai)
+func _init(host_ai: CreatureAI, other_creature: Creature, is_child: bool):
+    super(host_ai)
     _other_creature = other_creature
     _move_direction = Vector2.LEFT if is_child else Vector2.RIGHT
 
@@ -35,14 +35,14 @@ func leave_state():
 
 
 func process_state(delta: float):
-    _ai.creature.move_towards(_move_direction, delta)
+    actor.movement.move_towards(_move_direction, delta)
 
 
 func _try_change_state() -> AbstractAiState:
     if not is_instance_valid(_other_creature):
-        return WanderingState.new(_ai)
+        return WanderingState.new(ai)
     return null
 
 
 func _on_creature_leaved(_area: Area2D):
-    state_change_request.emit(WanderingState.new(_ai))
+    state_change_request.emit(WanderingState.new(ai))
