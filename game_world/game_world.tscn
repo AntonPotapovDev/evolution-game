@@ -13,20 +13,29 @@ process_mode = 3
 script = ExtResource("2_abhvm")
 metadata/_custom_type_script = "uid://dn1a47qaolp6d"
 
+[node name="Field" parent="." unique_id=1353348518 instance=ExtResource("4_uufbk")]
+position = Vector2(1479, 711)
+
+[node name="Field2" parent="." unique_id=24640813 instance=ExtResource("4_uufbk")]
+position = Vector2(434, 199)
+
+[node name="Field3" parent="." unique_id=975445516 instance=ExtResource("4_uufbk")]
+position = Vector2(719, 933)
+
+[node name="Field4" parent="." unique_id=1536355875 instance=ExtResource("4_uufbk")]
+position = Vector2(1195, -26)
+
+[node name="Field5" parent="." unique_id=414445754 instance=ExtResource("4_uufbk")]
+position = Vector2(-349, 597)
+
+[node name="Field6" parent="." unique_id=2111542440 instance=ExtResource("4_uufbk")]
+position = Vector2(1372, 1541)
+
+[node name="Field7" parent="." unique_id=297335994 instance=ExtResource("4_uufbk")]
+position = Vector2(2139, 79)
+
 [node name="Creature" parent="." unique_id=950496937 instance=ExtResource("2_e08lw")]
 position = Vector2(205, 876)
 
 [node name="Creature2" parent="." unique_id=1915270166 instance=ExtResource("2_e08lw")]
-position = Vector2(1553, 163)
-
-[node name="Field" parent="." unique_id=1353348518 instance=ExtResource("4_uufbk")]
-position = Vector2(1839, 1096)
-
-[node name="Field2" parent="." unique_id=24640813 instance=ExtResource("4_uufbk")]
-position = Vector2(-168, 14)
-
-[node name="Field3" parent="." unique_id=975445516 instance=ExtResource("4_uufbk")]
-position = Vector2(608, 1170)
-
-[node name="Field4" parent="." unique_id=1536355875 instance=ExtResource("4_uufbk")]
-position = Vector2(1229, -253)
+position = Vector2(1629, 264)

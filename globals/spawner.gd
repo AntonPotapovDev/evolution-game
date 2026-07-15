@@ -24,7 +24,7 @@ func spawn_creature(global_position: Vector2, config: CreatureConfig, initial_st
 
 
 func spawn_default_creature(global_position: Vector2) -> Creature:
-    return spawn_creature(global_position, CreatureConfig.make_default(), SearchingState.make_factory())
+    return spawn_creature(global_position, CreatureConfig.make_default(), WanderingState.make_factory())
 
 
 func spawn_plant_food(global_position: Vector2) -> PlantFood:

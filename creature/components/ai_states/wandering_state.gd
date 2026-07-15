@@ -10,6 +10,10 @@ var _direction: Vector2
 var _timer: SceneTreeTimer = null
 
 
+static func make_factory() -> Callable:
+    return WanderingState.new
+
+
 func _init(host_ai: CreatureAI):
     super(host_ai)
     _background_searching = SearchingState.new(ai)

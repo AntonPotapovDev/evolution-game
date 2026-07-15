@@ -32,7 +32,7 @@ func _init_cretures():
             continue
 
         var creature_config = CreatureConfig.make_default()
-        creature.init(creature_config, Spawner.gen_creature_id(), SearchingState.make_factory())
+        creature.init(creature_config, Spawner.gen_creature_id(), WanderingState.make_factory())
         EventBus.creature_spawned.emit(creature_config)
 
 

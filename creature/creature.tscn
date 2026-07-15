@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dw3u84yddl2th" path="res://creature/creature.gd" id="1_uiwjy"]
 [ext_resource type="Texture2D" uid="uid://chlq4wcgu1kkr" path="res://assets/circle_r64_green.svg" id="2_6rt7j"]
+[ext_resource type="PackedScene" uid="uid://mpfqbihstkd8" path="res://creature/components/vision/vision.tscn" id="5_iaoje"]
 [ext_resource type="Script" uid="uid://cl1jf8pqavwrg" path="res://creature/components/movement/moving_adviser.gd" id="5_wk5yt"]
 [ext_resource type="PackedScene" uid="uid://bkuy6edwmo6s3" path="res://creature/components/attack/attack.tscn" id="6_q1743"]
 [ext_resource type="PackedScene" uid="uid://d2fy62jalrrde" path="res://ui/creature_selection_control/creature_selection_control.tscn" id="6_rxhes"]
@@ -28,6 +29,8 @@ metadata/_custom_type_script = "uid://cl1jf8pqavwrg"
 [node name="Attack" parent="." unique_id=381906637 node_paths=PackedStringArray("creature") instance=ExtResource("6_q1743")]
 position = Vector2(39, -30.901642)
 creature = NodePath("..")
+
+[node name="Vision" parent="." unique_id=129992243 instance=ExtResource("5_iaoje")]
 
 [node name="CreatureSelectionControl" parent="." unique_id=1775184872 node_paths=PackedStringArray("creature") instance=ExtResource("6_rxhes")]
 creature = NodePath("..")

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://mpfqbihstkd8"]
+
+[ext_resource type="Script" uid="uid://cmem3x1pe1wfw" path="res://creature/components/vision/vision.gd" id="1_jrkpa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4hdkn"]
+
+[node name="Vision" type="Area2D" unique_id=129992243]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_jrkpa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=375107470]
+shape = SubResource("CircleShape2D_4hdkn")
+debug_color = Color(0.6860048, 0.50041825, 0.03436208, 0.41960785)

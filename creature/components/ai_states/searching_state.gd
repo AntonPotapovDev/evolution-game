@@ -16,10 +16,6 @@ var _timer: SceneTreeTimer
 signal food_found(food: AbstractFood)
 
 
-static func make_factory() -> Callable:
-    return SearchingState.new
-
-
 func _init(host_ai: CreatureAI):
     super(host_ai)
 
@@ -63,34 +59,20 @@ func _do_search() -> SearchResult:
 
 
 func _find_nearest_food() -> AbstractFood:
-    var nearest_of_type: Array[AbstractFood]
-    for food_type in actor.config.diet:
-        var nearest = _find_nearest_food_of_type(food_type)
-        if not nearest:
-            continue
-        nearest_of_type.append(nearest)
-
-    return _pick_nearest_of(nearest_of_type) as AbstractFood
-
-
-func _find_nearest_food_of_type(food_type: StringName) -> AbstractFood:
-    var nodes = actor.get_tree().get_nodes_in_group(food_type)
-    return _pick_nearest_of(nodes) as AbstractFood
+    var food = actor.vision.seen_food
+    return _pick_nearest_of(food.filter(_may_be_eaten)) as AbstractFood
 
 
 func _find_nearest_prey() -> Creature:
-    var nodes = actor.get_tree().get_nodes_in_group(Groups.CREATURE)
-    return _pick_nearest_of(nodes.filter(_may_be_prey)) as Creature
+    var creatures = actor.vision.seen_creatures
+    return _pick_nearest_of(creatures.filter(_may_be_prey)) as Creature
 
 
-func _may_be_prey(node: Node2D) -> bool:
-    var creature = node as Creature
-    if not creature:
-        return false
+func _may_be_eaten(food: AbstractFood) -> bool:
+    return actor.config.diet.has(food.type)
 
-    if creature == actor:
-        return false
 
+func _may_be_prey(creature: Creature) -> bool:
     return not actor.breeding.relatives_ids.has(creature.id)
 
 
@@ -101,8 +83,6 @@ func _pick_nearest_of(nodes: Array) -> Node2D:
     for node in nodes:
         var creature = node as Creature
         if creature:
-            if creature == actor:
-                continue
             if actor.breeding.relatives_ids.has(creature.id):
                 continue
 

@@ -13,6 +13,7 @@ enum DietPhase {
 var diet_phase: DietPhase
 var trait_ids: Array[int]
 var movement_speed: float
+var vision_radius: float
 var energy_config: Energy.Config
 
 
@@ -42,6 +43,7 @@ static func make_default() -> CreatureConfig:
     config.diet_phase = DietPhase.HERBIVORE
     config.trait_ids = [] as Array[int]
     config.movement_speed = DefaultValues.MOVEMENT_SPEED
+    config.vision_radius = DefaultValues.VISION_RADIUS
     config.energy_config = _make_default_energy_config()
 
     return config

@@ -3,7 +3,8 @@ extends Area2D
 
 
 @onready var _attack: Attack = $Attack
-@onready var _selection_control = $CreatureSelectionControl
+@onready var _vision: Vision = $Vision
+@onready var _selection_control: CreatureSelectionControl = $CreatureSelectionControl
 
 
 @warning_ignore("unused_signal")
@@ -69,6 +70,11 @@ var attack: Attack:
         return _attack
 
 
+var vision: Vision:
+    get:
+        return _vision
+
+
 var selection_control: CreatureSelectionControl:
     get:
         return _selection_control
@@ -83,6 +89,8 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
     _id = new_id
     _config = creature_config
 
+    $Vision.init(self)
+
     _health = Health.new(self)
     _energy = Energy.new(self, creature_config.energy_config)
     _movement = Movement.new(self, $MovingAdviser)
@@ -95,6 +103,7 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
 
     _updatable_components = [
         _energy,
+        $Vision,
         _ai,
         _movement
     ]

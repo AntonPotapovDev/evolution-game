@@ -23,7 +23,7 @@ func leave_state():
 
 
 func process_state(delta: float):
-    if not is_instance_valid(_target):
+    if not is_instance_valid(_target) or not actor.vision.is_creature_seen(_target):
         return
 
     actor.attack.attack_if_in_range(_target)
@@ -32,7 +32,7 @@ func process_state(delta: float):
 
 
 func _try_change_state() -> AbstractAiState:
-    if not is_instance_valid(_target):
+    if not is_instance_valid(_target) or not actor.vision.is_creature_seen(_target):
         return WanderingState.new(ai)
 
     return null
