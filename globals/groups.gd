@@ -7,3 +7,5 @@ const CREATURE: StringName = &"creature"
 
 const PLANT_FOOD: StringName = &"plant_food"
 const MEAT_FOOD: StringName = &"meat_food"
+
+const FIELD: StringName = &"field"

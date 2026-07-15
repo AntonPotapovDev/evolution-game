@@ -78,7 +78,7 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
     if _config:
         return
 
-    z_index = Layers.CREATURE
+    z_index = Layers.Layer.CREATURE
 
     _id = new_id
     _config = creature_config

@@ -16,7 +16,7 @@ var selected: bool:
 
 
 func _ready() -> void:
-    z_index = Layers.UI
+    z_index = Layers.Layer.UI
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

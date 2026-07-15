@@ -2,7 +2,6 @@ class_name GameWord
 extends Node2D
 
 
-@onready var _food_timer: Timer = $FoodTimer
 @onready var _camera: GameCamera = $GameCamera
 
 
@@ -12,9 +11,8 @@ var _rng: RandomNumberGenerator
 
 func start() -> void:
     _init_system()
+    _init_fields()
     _init_cretures()
-
-    _food_timer.start()
 
 
 func _init_system():
@@ -38,16 +36,9 @@ func _init_cretures():
         EventBus.creature_spawned.emit(creature_config)
 
 
-func _spawn_food() -> void:
-    var center = _screen_size / 2
-    var coef = 0.7
-
-    var move_x = _rng.randf_range(-center.x * coef, center.x * coef)
-    var move_y = _rng.randf_range(-center.y * coef, center.y * coef)
-
-    Spawner.spawn_plant_food(center + Vector2(move_x, move_y))
-
-
-func _on_food_timer_timeout() -> void:
-    _spawn_food()
-    _spawn_food()
+func _init_fields():
+    var fields = get_tree().get_nodes_in_group(Groups.FIELD)
+    for node in fields:
+        var field = node as Field
+        if field:
+            field.init()

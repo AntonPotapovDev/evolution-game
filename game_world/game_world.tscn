@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c6liunqprkle5" path="res://game_world/game_world.gd" id="1_ea1x0"]
 [ext_resource type="Script" uid="uid://dn1a47qaolp6d" path="res://game_world/game_camera.gd" id="2_abhvm"]
 [ext_resource type="PackedScene" uid="uid://c71ebubvtykbs" path="res://creature/creature.tscn" id="2_e08lw"]
+[ext_resource type="PackedScene" uid="uid://dg8kx7310vhg7" path="res://game_world/field/field.tscn" id="4_uufbk"]
 
 [node name="GameWorld" type="Node2D" unique_id=1257805047]
 script = ExtResource("1_ea1x0")
@@ -12,13 +13,20 @@ process_mode = 3
 script = ExtResource("2_abhvm")
 metadata/_custom_type_script = "uid://dn1a47qaolp6d"
 
-[node name="FoodTimer" type="Timer" parent="." unique_id=1839282753]
-wait_time = 2.0
-
 [node name="Creature" parent="." unique_id=950496937 instance=ExtResource("2_e08lw")]
 position = Vector2(205, 876)
 
 [node name="Creature2" parent="." unique_id=1915270166 instance=ExtResource("2_e08lw")]
 position = Vector2(1553, 163)
 
-[connection signal="timeout" from="FoodTimer" to="." method="_on_food_timer_timeout"]
+[node name="Field" parent="." unique_id=1353348518 instance=ExtResource("4_uufbk")]
+position = Vector2(1839, 1096)
+
+[node name="Field2" parent="." unique_id=24640813 instance=ExtResource("4_uufbk")]
+position = Vector2(-168, 14)
+
+[node name="Field3" parent="." unique_id=975445516 instance=ExtResource("4_uufbk")]
+position = Vector2(608, 1170)
+
+[node name="Field4" parent="." unique_id=1536355875 instance=ExtResource("4_uufbk")]
+position = Vector2(1229, -253)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dg8kx7310vhg7"]
+
+[ext_resource type="Script" uid="uid://8q35uk2lk57b" path="res://game_world/field/field.gd" id="1_kkl7u"]
+[ext_resource type="Texture2D" uid="uid://mub07fg8g62t" path="res://assets/circle_r384_dark_green.svg" id="1_nn7hi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kkl7u"]
+radius = 371.19403
+
+[node name="Field" type="Area2D" unique_id=1353348518]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_kkl7u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2104650823]
+texture = ExtResource("1_nn7hi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1765375141]
+shape = SubResource("CircleShape2D_kkl7u")
