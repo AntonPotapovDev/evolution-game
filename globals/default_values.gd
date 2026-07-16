@@ -4,7 +4,13 @@ extends RefCounted
 
 const MAX_HP: int = 10
 
-const MOVEMENT_SPEED: float = 150.0
+const NORMAL_SPEED: float = 150.0
+const SPRINT_SPEED: float = 200.0
+
+const MAX_STAMINA: float = 50.0
+const STAMINA_RESTORE_RATE: float = 7.0
+const SPRINT_STAMINA_CONSUMPTION: float = 10.0
+
 const VISION_RADIUS: float = 600.0
 
 const MAX_ENERGY: float = 300.0

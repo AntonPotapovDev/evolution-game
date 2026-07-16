@@ -18,6 +18,7 @@ var _ai: CreatureAI = null
 var _health: Health = null
 var _energy: Energy = null
 var _movement: Movement = null
+var _stamina: Stamina = null
 var _eating: Eating = null
 var _breeding: Breeding = null
 var _death: Death = null
@@ -48,6 +49,11 @@ var energy: Energy:
 var movement: Movement:
     get:
         return _movement
+
+
+var stamina: Stamina:
+    get:
+        return _stamina
 
 
 var eating: Eating:
@@ -93,7 +99,8 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
 
     _health = Health.new(self)
     _energy = Energy.new(self, creature_config.energy_config)
-    _movement = Movement.new(self, $MovingAdviser)
+    _movement = Movement.new(self, creature_config.movement_config, $MovingAdviser)
+    _stamina = Stamina.new(self, creature_config.stamina_config)
     _eating = Eating.new(self)
     area_entered.connect(_eating.on_creature_area_entered)
     _breeding = Breeding.new(self)
@@ -105,7 +112,8 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
         _energy,
         $Vision,
         _ai,
-        _movement
+        _movement,
+        stamina
     ]
 
 

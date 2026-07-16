@@ -28,7 +28,7 @@ func process_state(delta: float):
 
     actor.attack.attack_if_in_range(_target)
     if not _target.death.dead:
-        actor.movement.rush_to_target(_target, delta)
+        actor.movement.rush_to_target(_target, delta, Movement.Policy.SPRINT_IF_CAN)
 
 
 func _try_change_state() -> AbstractAiState:

@@ -33,7 +33,8 @@ func leave_state():
 
 func process_state(delta: float):
     if is_instance_valid(_target):
-        actor.movement.move_to_target(_target, delta)
+        var movement_policy = actor.config.moving_to_food_policy
+        actor.movement.move_to_target(_target, delta, movement_policy)
 
 
 func _try_change_state() -> AbstractAiState:

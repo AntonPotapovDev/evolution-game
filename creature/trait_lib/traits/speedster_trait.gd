@@ -3,7 +3,8 @@ extends AbstractTrait
 
 
 func patch_config(config: CreatureConfig):
-    config.movement_speed *= 1.5
+    config.movement_config.normal_speed *= 1.5
+    config.movement_config.sprint_speed *= 1.5
 
 
 func _init():

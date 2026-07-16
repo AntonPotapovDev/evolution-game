@@ -80,6 +80,10 @@ label_settings = SubResource("LabelSettings_y5uk5")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_pwlwo")
 
+[node name="StaminaLabel" type="Label" parent="MainContainer/Content" unique_id=2142352969]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_pwlwo")
+
 [node name="TraitsLabel" type="Label" parent="MainContainer/Content" unique_id=2098793355]
 layout_mode = 2
 text = "Traits:"

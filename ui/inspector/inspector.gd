@@ -8,6 +8,7 @@ const TRAIT_ITEM_SCENE: PackedScene = preload("res://ui/trait_item/trait_item.ts
 @onready var _title_label: Label = $MainContainer/TitleBar/TitleLabel
 @onready var _health_label: Label = $MainContainer/Content/HealthLabel
 @onready var _energy_label: Label = $MainContainer/Content/EnergyLabel
+@onready var _stamina_label: Label = $MainContainer/Content/StaminaLabel
 @onready var _diet_label: Label = $MainContainer/Content/DietLabel
 
 @onready var _trait_list: VBoxContainer = $MainContainer/Content/TraitContainer/TraiList
@@ -33,6 +34,11 @@ func _process(_delta: float) -> void:
         _make_param_text(
             floori(_display_creature.energy.current_energy),
             int(_display_creature.energy.config.max_energy)))
+
+    _update_label(_stamina_label, Text.STAMINA, ": ",
+        _make_param_text(
+            floori(_display_creature.stamina.current_stamina),
+            int(_display_creature.stamina.config.max_stamina)))
 
 
 func _update_label(label: Label, title: StringName, separator: String, value: String):

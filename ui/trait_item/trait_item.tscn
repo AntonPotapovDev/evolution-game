@@ -15,3 +15,4 @@ visible = false
 layout_mode = 2
 text = "Some description"
 label_settings = SubResource("LabelSettings_aml2q")
+autowrap_mode = 3

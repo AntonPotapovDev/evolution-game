@@ -4,7 +4,8 @@ extends RefCounted
 
 static var _general_pool: Array[AbstractTrait] = [
     SpeedsterTrait.new(),
-    SharpVisionTrait.new()
+    SharpVisionTrait.new(),
+    FoodRush.new()
 ] as Array[AbstractTrait]
 
 

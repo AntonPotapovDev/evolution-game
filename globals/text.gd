@@ -5,6 +5,7 @@ extends RefCounted
 const CREATURE: StringName = &"Creature"
 const HEALTH: StringName = &"Health"
 const ENERGY: StringName = &"Energy"
+const STAMINA: StringName = &"Stamina"
 const DIET: StringName = &"Diet"
 
 const LABEL_BY_DIET: Dictionary = {
