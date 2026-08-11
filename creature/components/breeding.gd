@@ -3,6 +3,7 @@ extends RefCounted
 
 
 var _creature: Creature = null
+var _parent: Creature = null
 var _relatives_ids: Array[int] = []
 
 
@@ -11,14 +12,20 @@ var relatives_ids: Array[int]:
         return _relatives_ids
 
 
+var parent: Creature:
+    get:
+        return _parent
+
+
 func make_child() -> Creature:
-    var child_config = Mutator.mutate(_creature.config)
-    var state_factory = PostBirthState.make_factory(_creature, true)
     _creature.energy.on_gave_birth()
 
-    var child = Spawner.spawn_creature(_creature.global_position, child_config, state_factory)
+    var child_config = Mutator.mutate(_creature.config)
+    var child = Spawner.spawn_creature(_creature.global_position, child_config)
     child.breeding.relatives_ids.append(_creature.id)
     relatives_ids.append(child.id)
+
+    child.breeding._parent = _creature
 
     return child
 

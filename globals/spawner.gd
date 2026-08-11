@@ -15,16 +15,16 @@ func init(game_world: Node2D):
         _game_world = game_world
 
 
-func spawn_creature(global_position: Vector2, config: CreatureConfig, initial_state_factory: Callable) -> Creature:
+func spawn_creature(global_position: Vector2, config: CreatureConfig) -> Creature:
     var instance = CREATURE_SCENE.instantiate() as Creature
-    instance.init(config, gen_creature_id(), initial_state_factory)
+    instance.init(config, gen_creature_id())
     _add_object_to_scene(instance, global_position)
     EventBus.creature_spawned.emit(config)
     return instance
 
 
 func spawn_default_creature(global_position: Vector2) -> Creature:
-    return spawn_creature(global_position, CreatureConfig.make_default(), WanderingState.make_factory())
+    return spawn_creature(global_position, CreatureConfig.make_default())
 
 
 func spawn_plant_food(global_position: Vector2) -> PlantFood:

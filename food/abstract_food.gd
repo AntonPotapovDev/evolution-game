@@ -12,6 +12,11 @@ var type: StringName:
         return _type
 
 
+var is_consumed: bool:
+    get:
+        return _is_consumed
+
+
 func consume(consuming_creature: Creature):
     if _is_consumed:
         return

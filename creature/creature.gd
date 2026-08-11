@@ -3,7 +3,6 @@ extends Area2D
 
 
 @onready var _attack: Attack = $Attack
-@onready var _vision: Vision = $Vision
 @onready var _selection_control: CreatureSelectionControl = $CreatureSelectionControl
 
 
@@ -14,9 +13,10 @@ signal died
 var _id: int
 var _config: CreatureConfig = null
 
-var _ai: CreatureAI = null
+var _ai: Ai = null
 var _health: Health = null
 var _energy: Energy = null
+var _vision: Vision = null
 var _movement: Movement = null
 var _stamina: Stamina = null
 var _eating: Eating = null
@@ -86,7 +86,7 @@ var selection_control: CreatureSelectionControl:
         return _selection_control
 
 
-func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: Callable):
+func init(creature_config: CreatureConfig, new_id: int):
     if _config:
         return
 
@@ -95,10 +95,10 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
     _id = new_id
     _config = creature_config
 
-    $Vision.init(self)
-
     _health = Health.new(self)
     _energy = Energy.new(self, creature_config.energy_config)
+    _vision = $Vision
+    _vision.init(self)
     _movement = Movement.new(self, creature_config.movement_config, $MovingAdviser)
     _stamina = Stamina.new(self, creature_config.stamina_config)
     _eating = Eating.new(self)
@@ -106,14 +106,14 @@ func init(creature_config: CreatureConfig, new_id: int, initial_state_factory: C
     _breeding = Breeding.new(self)
     _death = Death.new(self)
 
-    _ai = CreatureAI.new(self, initial_state_factory)
+    _ai = Ai.new(self)
 
     _updatable_components = [
         _energy,
-        $Vision,
+        _vision,
         _ai,
         _movement,
-        stamina
+        _stamina
     ]
 
 
