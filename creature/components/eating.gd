@@ -5,14 +5,13 @@ extends RefCounted
 var _creature: Creature
 
 
-func on_creature_area_entered(area: Area2D):
-    var food = area as AbstractFood
-    if not food:
-        return
-
-    if _creature.config.diet.has(food.type):
-        food.consume(_creature)
-
-
 func _init(creature: Creature):
     _creature = creature
+
+
+func eat_food_if_can(food: AbstractFood):
+    if not _creature.config.diet.has(food.type):
+        return
+
+    if _creature.overlaps_area(food):
+        food.consume(_creature)

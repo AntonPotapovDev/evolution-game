@@ -23,10 +23,6 @@ func spawn_creature(global_position: Vector2, config: CreatureConfig) -> Creatur
     return instance
 
 
-func spawn_default_creature(global_position: Vector2) -> Creature:
-    return spawn_creature(global_position, CreatureConfig.make_default())
-
-
 func spawn_plant_food(global_position: Vector2) -> PlantFood:
     var instance = PLANT_FOOD_SCENE.instantiate() as PlantFood
     _add_object_to_scene(instance, global_position)

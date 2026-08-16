@@ -95,18 +95,8 @@ func init(creature_config: CreatureConfig, new_id: int):
     _id = new_id
     _config = creature_config
 
-    _health = Health.new(self)
-    _energy = Energy.new(self, creature_config.energy_config)
-    _vision = $Vision
-    _vision.init(self)
-    _movement = Movement.new(self, creature_config.movement_config, $MovingAdviser)
-    _stamina = Stamina.new(self, creature_config.stamina_config)
-    _eating = Eating.new(self)
-    area_entered.connect(_eating.on_creature_area_entered)
-    _breeding = Breeding.new(self)
-    _death = Death.new(self)
-
-    _ai = Ai.new(self)
+    _init_node_components()
+    _init_simple_components()
 
     _updatable_components = [
         _energy,
@@ -117,13 +107,28 @@ func init(creature_config: CreatureConfig, new_id: int):
     ]
 
 
+func _init_node_components():
+    _vision = $Vision
+    _vision.init(self)
+
+
+func _init_simple_components():
+    _health = Health.new(self)
+    _energy = Energy.new(self, _config.energy_config)
+    _movement = Movement.new(self, _config.movement_config, $MovingAdviser)
+    _stamina = Stamina.new(self, _config.stamina_config)
+    _eating = Eating.new(self)
+    _breeding = Breeding.new(self)
+    _death = Death.new(self)
+    _ai = Ai.new(self)
+
+
 func _ready() -> void:
     add_to_group(Groups.CREATURE)
 
 
 func _exit_tree() -> void:
     _ai.deinit()
-    area_entered.disconnect(_eating.on_creature_area_entered)
 
 
 func _physics_process(delta: float) -> void:

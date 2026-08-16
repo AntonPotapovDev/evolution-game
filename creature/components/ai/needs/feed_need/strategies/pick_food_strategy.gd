@@ -14,6 +14,10 @@ func can_continue() -> bool:
 func update(delta: float) -> bool:
     var food = food_info_provider.get_info().food
 
+    _actor.eating.eat_food_if_can(food)
+    if food.is_consumed:
+        return true
+
     var movement_policy = _actor.config.moving_to_food_policy
     _actor.movement.move_to_target(food, delta, movement_policy)
-    return food.is_consumed
+    return false

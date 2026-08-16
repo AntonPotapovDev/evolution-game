@@ -6,7 +6,6 @@ extends Node2D
 
 
 var _screen_size: Vector2
-var _rng: RandomNumberGenerator
 
 
 func start() -> void:
@@ -18,8 +17,6 @@ func start() -> void:
 func _init_system():
     _screen_size = get_viewport_rect().size
     _camera.global_position = _screen_size / 2
-
-    _rng = RandomNumberGenerator.new()
 
     Spawner.init(self)
 
