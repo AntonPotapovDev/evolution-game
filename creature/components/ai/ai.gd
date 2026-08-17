@@ -6,12 +6,15 @@ var _needs_by_priority: Array[AbstractNeed]
 var _active_need: AbstractNeed = null
 
 var _food_info_provider: FoodInfoProvider
+var _danger_info_provider: DangerInfoProvider
 
 
 func _init(actor: Creature):
     _food_info_provider = FoodInfoProvider.new(actor)
+    _danger_info_provider = DangerInfoProvider.new(actor)
 
     _needs_by_priority = [
+        SafetyNeed.new(actor, _danger_info_provider),
         BeBornNeed.new(actor),
         ReproduceNeed.new(actor),
         FeedNeed.new(actor, _food_info_provider)
@@ -28,13 +31,14 @@ func deinit():
 
 func update(delta: float):
     _food_info_provider.update()
+    _danger_info_provider.update(delta)
 
     var new_need_idx = _needs_by_priority.find_custom(
         func(need: AbstractNeed): return need.is_actual())
 
     var new_need = _needs_by_priority[new_need_idx]
 
-    if new_need != _active_need:
+    if new_need != _active_need and _active_need.can_interrupt():
         _active_need.reset()
         _active_need = new_need
         _active_need.activate()

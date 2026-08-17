@@ -24,6 +24,10 @@ func is_actual() -> bool:
     return _actor.energy.current_energy > threshold
 
 
+func can_interrupt() -> bool:
+    return not _is_giving_birth
+
+
 func update(delta: float):
     _script.update(delta)
 

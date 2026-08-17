@@ -17,6 +17,10 @@ func is_actual() -> bool:
     return not _is_born
 
 
+func can_interrupt() -> bool:
+    return _is_born
+
+
 func update(delta: float):
     _script.update(delta)
 

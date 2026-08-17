@@ -19,6 +19,10 @@ func is_actual() -> bool:
     return true
 
 
+func can_interrupt() -> bool:
+    return true
+
+
 func update(delta: float):
     _script.update(delta)
 

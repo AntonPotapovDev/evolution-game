@@ -13,6 +13,10 @@ func is_actual() -> bool:
     return false
 
 
+func can_interrupt() -> bool:
+    return true
+
+
 func update(_delta: float):
     pass
 
