@@ -8,16 +8,15 @@ const ENERGY: StringName = &"Energy"
 const STAMINA: StringName = &"Stamina"
 const DIET: StringName = &"Diet"
 
+
 const LABEL_BY_DIET: Dictionary = {
     CreatureConfig.DietPhase.HERBIVORE: &"Herbivore",
-    CreatureConfig.DietPhase.OMNIVORE_SCAVENGER: &"Scavenger",
-    CreatureConfig.DietPhase.OMNIVORE_OPPORTUNIST: &"Opportunist",
+    CreatureConfig.DietPhase.OMNIVORE: &"Omnivore",
     CreatureConfig.DietPhase.CARNIVORE: &"Predator",
 }
 
 const TOOLTIP_BY_DIET: Dictionary = {
     CreatureConfig.DietPhase.HERBIVORE: &"Only plants",
-    CreatureConfig.DietPhase.OMNIVORE_SCAVENGER: &"Omnivore, does not hunt",
-    CreatureConfig.DietPhase.OMNIVORE_OPPORTUNIST: &"Omnivore, hunts if needed",
-    CreatureConfig.DietPhase.CARNIVORE: &"Only meat",
+    CreatureConfig.DietPhase.OMNIVORE: &"Plants and meat",
+    CreatureConfig.DietPhase.CARNIVORE: &"Only meat, hunts",
 }

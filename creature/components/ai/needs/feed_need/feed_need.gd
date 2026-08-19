@@ -2,17 +2,21 @@ class_name FeedNeed
 extends AbstractNeed
 
 
-var _script: StagedScript
 var _food_info_provider: WeakRef
+
+var _seek_food: SeekFoodState
+var _pick_food: PickFoodState
+var _hunting: HuntingState
+
+var _current_state: AbstractFeedNeedState = null
 
 
 func _init(actor: Creature, food_info_provider: FoodInfoProvider):
     super(actor)
     _food_info_provider = weakref(food_info_provider)
-    _script = StagedScript.new([
-        SeekFoodStage.make_factory(actor, food_info_provider),
-        GetFoodStage.make_factory(actor, food_info_provider)
-    ] as Array[AbstractStageFactory])
+    _seek_food = SeekFoodState.new(actor)
+    _pick_food = PickFoodState.new(actor)
+    _hunting = HuntingState.new(actor)
 
 
 func is_actual() -> bool:
@@ -24,12 +28,60 @@ func can_interrupt() -> bool:
 
 
 func update(delta: float):
-    _script.update(delta)
+    _update_state()
+    _current_state.update(delta)
 
 
 func activate():
-    _script.start()
+    pass
 
 
 func reset():
-    _script.stop()
+    if _current_state:
+        _current_state.reset()
+        _current_state = null
+
+
+func _update_state():
+    var fip = _food_info_provider.get_ref() as FoodInfoProvider
+    var info = fip.get_info()
+
+    if not info.has_food:
+        _start_seek_food()
+        return
+
+    if info.food:
+        _start_pick_food(info.food)
+        return
+
+    if _can_hunt():
+        _start_hunting(info.prey)
+        return
+
+    _start_seek_food()
+
+
+func _start_seek_food():
+    _start_state(_seek_food)
+
+
+func _start_pick_food(food: AbstractFood):
+    _pick_food.set_food(food)
+    _start_state(_pick_food)
+
+
+func _start_hunting(prey: Creature):
+    if not _hunting.has_prey():
+        _hunting.set_prey(prey)
+    _start_state(_hunting)
+
+
+func _start_state(state: AbstractFeedNeedState):
+    if _current_state != state:
+        reset()
+        _current_state = state
+        _current_state.start()
+
+
+func _can_hunt() -> bool:
+    return _actor.stamina.can_use_stamina

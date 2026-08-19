@@ -4,8 +4,7 @@ extends RefCounted
 
 enum DietPhase {
     HERBIVORE,
-    OMNIVORE_SCAVENGER,
-    OMNIVORE_OPPORTUNIST,
+    OMNIVORE,
     CARNIVORE
 }
 
@@ -26,17 +25,15 @@ var diet: Array[StringName]:
                 return [ Groups.PLANT_FOOD ] as Array[StringName]
             DietPhase.CARNIVORE:
                 return [ Groups.MEAT_FOOD ] as Array[StringName]
-            _:
+            DietPhase.OMNIVORE:
                 return [ Groups.PLANT_FOOD, Groups.MEAT_FOOD ] as Array[StringName]
+            _:
+                return [] as Array[StringName]
 
 
 var is_hunter: bool:
     get:
-        match diet_phase:
-            DietPhase.OMNIVORE_OPPORTUNIST, DietPhase.CARNIVORE:
-                return true
-            _:
-                return false
+        return diet_phase == DietPhase.CARNIVORE
 
 
 static func make_default() -> CreatureConfig:

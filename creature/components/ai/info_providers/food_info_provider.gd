@@ -56,7 +56,7 @@ func _may_be_eaten(food: AbstractFood) -> bool:
 
 
 func _may_be_prey(creature: Creature) -> bool:
-    return not _creature.breeding.relatives_ids.has(creature.id)
+    return not _creature.breeding.relatives_ids.has(creature.id) and not creature.config.is_hunter
 
 
 func _pick_nearest_of(nodes: Array) -> Node2D:

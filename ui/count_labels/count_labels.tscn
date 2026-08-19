@@ -14,11 +14,7 @@ script = ExtResource("1_1r4ba")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n2snw")
 
-[node name="ScavengerCount" type="Label" parent="." unique_id=2080954146]
-layout_mode = 2
-label_settings = SubResource("LabelSettings_n2snw")
-
-[node name="OpportunistCount" type="Label" parent="." unique_id=1578637957]
+[node name="OmniCount" type="Label" parent="." unique_id=2080954146]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_n2snw")
 

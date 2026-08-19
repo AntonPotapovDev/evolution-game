@@ -61,7 +61,13 @@ func _renew_seen_dangers():
 
 func _find_dangers() -> Array[Creature]:
     return _creature.vision.seen_creatures.filter(
-        func(creature: Creature): return not _is_relative(creature) and _is_hunter(creature))
+        func(creature: Creature): return not _is_relative(creature) and _is_danger(creature))
+
+
+func _is_danger(creature: Creature) -> bool:
+    if _is_relative(creature):
+        return false
+    return not _is_hunter(_creature) and _is_hunter(creature)
 
 
 func _is_relative(creature: Creature) -> bool:
