@@ -2,7 +2,6 @@ class_name Creature
 extends Area2D
 
 
-@onready var _attack: Attack = $Attack
 @onready var _selection_control: CreatureSelectionControl = $CreatureSelectionControl
 
 
@@ -19,6 +18,7 @@ var _energy: Energy = null
 var _vision: Vision = null
 var _movement: Movement = null
 var _stamina: Stamina = null
+var _attack: Attack = null
 var _eating: Eating = null
 var _breeding: Breeding = null
 var _death: Death = null
@@ -95,6 +95,7 @@ func init(creature_config: CreatureConfig, new_id: int):
     _id = new_id
     _config = creature_config
 
+    _init_creature_color(_get_creature_color())
     _init_node_components()
     _init_simple_components()
 
@@ -111,6 +112,9 @@ func _init_node_components():
     _vision = $Vision
     _vision.init(self)
 
+    _attack = $Attack
+    _attack.init(_get_creature_color())
+
 
 func _init_simple_components():
     _health = Health.new(self)
@@ -121,6 +125,23 @@ func _init_simple_components():
     _breeding = Breeding.new(self)
     _death = Death.new(self)
     _ai = Ai.new(self)
+
+
+func _init_creature_color(color: Color):
+    var sprite = $Sprite2D
+    sprite.self_modulate = color
+
+
+func _get_creature_color() -> Color:
+    match _config.diet_phase:
+        CreatureConfig.DietPhase.HERBIVORE:
+            return Color.GREEN
+        CreatureConfig.DietPhase.OMNIVORE:
+            return Color.CYAN
+        CreatureConfig.DietPhase.CARNIVORE:
+            return Color.TOMATO
+        _:
+            return Color.WHITE
 
 
 func _ready() -> void:

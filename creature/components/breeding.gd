@@ -22,6 +22,8 @@ func make_child() -> Creature:
 
     var child_config = Mutator.mutate(_creature.config)
     var child = Spawner.spawn_creature(_creature.global_position, child_config)
+    child.get_parent().move_child(child, 0)
+
     child.breeding.relatives_ids.append(_creature.id)
     relatives_ids.append(child.id)
 

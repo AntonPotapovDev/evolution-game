@@ -5,6 +5,10 @@ extends AbstractFood
 const ENERGY_BOOST: float = 100.0
 
 
+func consume(consuming_creature: Creature):
+    _consume(consuming_creature, consuming_creature.eating.meat_energy_multiplier)
+
+
 func _ready() -> void:
     _energy_boost = ENERGY_BOOST
     z_index = Layers.Layer.FOOD

@@ -15,6 +15,11 @@ var _cooldown_left: float = 0.0
 var _is_attacking: bool = false
 
 
+func init(color: Color):
+    var sprite = $AttackPath/Paw/Sprite2D
+    sprite.self_modulate = color
+
+
 func do_attack():
     if _is_attacking or not is_zero_approx(_cooldown_left):
         return

@@ -17,11 +17,15 @@ var is_consumed: bool:
         return _is_consumed
 
 
-func consume(consuming_creature: Creature):
+func consume(_consuming_creature: Creature):
+    pass
+
+
+func _consume(consuming_creature: Creature, energy_mult: float):
     if _is_consumed:
         return
 
-    consuming_creature.energy.gain(_energy_boost)
+    consuming_creature.energy.gain(_energy_boost * energy_mult)
     _is_consumed = true
 
     queue_free()

@@ -3,9 +3,9 @@ extends Area2D
 
 
 @export var min_spawn_time: float = 2.0
-@export var max_spawn_time: float = 4.0
+@export var max_spawn_time: float = 10.0
 @export var min_starting_food: int = 0
-@export var max_starting_food: int = 5
+@export var max_starting_food: int = 3
 
 
 @onready var _shape: CircleShape2D = $CollisionShape2D.shape as CircleShape2D
