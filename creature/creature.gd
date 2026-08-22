@@ -13,6 +13,7 @@ var _id: int
 var _config: CreatureConfig = null
 
 var _ai: Ai = null
+var _memory: Memory = null
 var _health: Health = null
 var _energy: Energy = null
 var _vision: Vision = null
@@ -66,6 +67,11 @@ var breeding: Breeding:
         return _breeding
 
 
+var memory: Memory:
+    get:
+        return _memory
+
+
 var death: Death:
     get:
         return _death
@@ -102,6 +108,7 @@ func init(creature_config: CreatureConfig, new_id: int):
     _updatable_components = [
         _energy,
         _vision,
+        _memory,
         _ai,
         _movement,
         _stamina
@@ -124,6 +131,7 @@ func _init_simple_components():
     _eating = Eating.new(self)
     _breeding = Breeding.new(self)
     _death = Death.new(self)
+    _memory = Memory.new(self)
     _ai = Ai.new(self)
 
 

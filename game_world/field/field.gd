@@ -14,6 +14,11 @@ extends Area2D
 var _time_left: float = 0.0
 
 
+var radius: float:
+    get:
+        return _shape.radius
+
+
 func init():
     z_index = Layers.Layer.FIELD
 
@@ -45,5 +50,5 @@ func _update_time_left():
 
 
 func _get_random_point() -> Vector2:
-    var point = Vector2.UP * randf_range(0.0, _shape.radius)
+    var point = Vector2.UP * randf_range(0.0, radius)
     return to_global(point.rotated(randf_range(0.0, TAU)))

@@ -4,17 +4,18 @@ extends AbstractNeed
 
 var _food_info_provider: WeakRef
 
-var _seek_food: SeekFoodState
+var _seek_food: AbstractFeedNeedState
 var _pick_food: PickFoodState
 var _hunting: HuntingState
 
 var _current_state: AbstractFeedNeedState = null
 
 
-func _init(actor: Creature, food_info_provider: FoodInfoProvider):
+func _init(actor: Creature, food_info_provider: FoodInfoProvider, location_info_provider: LocationInfoProvider):
     super(actor)
     _food_info_provider = weakref(food_info_provider)
-    _seek_food = SeekFoodState.new(actor)
+
+    _seek_food = _get_searching_state(location_info_provider)
     _pick_food = PickFoodState.new(actor)
     _hunting = HuntingState.new(actor)
 
@@ -85,3 +86,9 @@ func _start_state(state: AbstractFeedNeedState):
 
 func _can_hunt() -> bool:
     return _actor.stamina.can_use_stamina
+
+
+func _get_searching_state(location_info_provider: LocationInfoProvider) -> AbstractFeedNeedState:
+    if _actor.config.is_hunter:
+        return SeekPreyState.new(_actor)
+    return SeekFoodState.new(_actor, location_info_provider)

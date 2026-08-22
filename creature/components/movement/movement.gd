@@ -52,6 +52,11 @@ func rush_to_target(target: Node2D, delta: float, policy: Policy = Policy.NORMAL
     _move_towards(direction, delta, policy)
 
 
+func move_to_position(position: Vector2, delta: float, policy: Policy = Policy.NORMAL) -> void:
+    var advised_dir = _moving_adviser.advised_direction(position)
+    _move_towards(advised_dir, delta, policy)
+
+
 func move_towards(direction: Vector2, delta: float, policy: Policy = Policy.NORMAL) -> void:
     var advised_dir = _moving_adviser.correct_direction(direction)
     _move_towards(advised_dir, delta, policy)
