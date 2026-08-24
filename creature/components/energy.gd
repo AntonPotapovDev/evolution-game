@@ -6,7 +6,6 @@ class Config extends RefCounted:
     var max_energy: float
     var general_consumption: float
     var movement_consumption: float
-    var birth_cost: float
 
 
 var _creature: Creature = null
@@ -31,7 +30,7 @@ var is_out_of_energy: bool:
 
 func _init(creature: Creature, init_config: Config):
     _creature = creature
-    _energy = init_config.birth_cost
+    _energy = DefaultValues.STARTING_ENERGY
     _config = init_config
 
 
@@ -45,12 +44,12 @@ func on_movement(speed: float, delta: float):
     _change_energy(-delta_energy)
 
 
-func on_gave_birth():
-    _change_energy(-_config.birth_cost)
-
-
 func gain(amount: float):
-    _change_energy(amount)
+    var self_income = (1 - DefaultValues.CHILD_ENERGY_INCOME_COEF) * amount
+    var child_income = amount - self_income
+
+    _creature.breeding.gain_energy(child_income)
+    _change_energy(self_income)
 
 
 func _change_energy(delta_energy: float):

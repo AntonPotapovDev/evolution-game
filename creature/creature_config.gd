@@ -55,7 +55,6 @@ static func _make_default_energy_config() -> Energy.Config:
     config.max_energy = DefaultValues.MAX_ENERGY
     config.general_consumption = DefaultValues.GENERAL_ENERGY_CONSUMPTION
     config.movement_consumption = DefaultValues.MOVEMENT_ENERGY_CONSUMPTION
-    config.birth_cost = DefaultValues.BIRTH_ENERGY_COST
     return config
 
 

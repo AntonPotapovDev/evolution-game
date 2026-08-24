@@ -84,6 +84,10 @@ label_settings = SubResource("LabelSettings_pwlwo")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_pwlwo")
 
+[node name="ChildProgressLabel" type="Label" parent="MainContainer/Content" unique_id=2002421857]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_pwlwo")
+
 [node name="TraitsLabel" type="Label" parent="MainContainer/Content" unique_id=2098793355]
 layout_mode = 2
 text = "Traits:"

@@ -6,6 +6,7 @@ const CREATURE: StringName = &"Creature"
 const HEALTH: StringName = &"Health"
 const ENERGY: StringName = &"Energy"
 const STAMINA: StringName = &"Stamina"
+const CHILD_PROGRESS: StringName = &"Child progress"
 const DIET: StringName = &"Diet"
 
 

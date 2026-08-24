@@ -9,6 +9,7 @@ const TRAIT_ITEM_SCENE: PackedScene = preload("res://ui/trait_item/trait_item.ts
 @onready var _health_label: Label = $MainContainer/Content/HealthLabel
 @onready var _energy_label: Label = $MainContainer/Content/EnergyLabel
 @onready var _stamina_label: Label = $MainContainer/Content/StaminaLabel
+@onready var _child_progress_label: Label = $MainContainer/Content/ChildProgressLabel
 @onready var _diet_label: Label = $MainContainer/Content/DietLabel
 
 @onready var _trait_list: VBoxContainer = $MainContainer/Content/TraitContainer/TraiList
@@ -40,6 +41,8 @@ func _process(_delta: float) -> void:
             floori(_display_creature.stamina.current_stamina),
             int(_display_creature.stamina.config.max_stamina)))
 
+    _update_child_progress_label()
+
 
 func _update_label(label: Label, title: StringName, separator: String, value: String):
     label.text = str(title) + separator + value
@@ -49,6 +52,12 @@ func _update_diet_label():
     var diet_phase = _display_creature.config.diet_phase
     _update_label(_diet_label, Text.DIET, ": ", str(Text.LABEL_BY_DIET[diet_phase]))
     _diet_label.tooltip_text = str(Text.TOOLTIP_BY_DIET[diet_phase])
+
+
+func _update_child_progress_label():
+    var progress = _display_creature.breeding.child_energy_reserve / DefaultValues.STARTING_ENERGY
+    progress *= 100.0
+    _update_label(_child_progress_label, Text.CHILD_PROGRESS, ": ", str(floori(progress)) + "%")
 
 
 func _make_param_text(value: int, max_value: int) -> String:

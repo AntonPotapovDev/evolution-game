@@ -2,9 +2,6 @@ class_name ReproduceNeed
 extends AbstractNeed
 
 
-const ENERGY_THRESHOLD_COEF: float = 0.8
-
-
 var _script: StagedScript
 var _is_giving_birth: bool = false
 
@@ -17,11 +14,7 @@ func _init(actor: Creature):
 
 
 func is_actual() -> bool:
-    if _is_giving_birth:
-        return true
-
-    var threshold = _actor.energy.config.max_energy * ENERGY_THRESHOLD_COEF
-    return _actor.energy.current_energy > threshold
+    return _is_giving_birth or _actor.breeding.ready_for_breeding
 
 
 func can_interrupt() -> bool:

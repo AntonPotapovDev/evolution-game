@@ -37,8 +37,8 @@ func _init_energy_multipliers():
             _plant_energy_mult = 1.5
             _meat_energy_mult = 0.0
         CreatureConfig.DietPhase.OMNIVORE:
-            _plant_energy_mult = 0.8
-            _meat_energy_mult = 0.8
+            _plant_energy_mult = 1.0
+            _meat_energy_mult = 1.0
         CreatureConfig.DietPhase.CARNIVORE:
             _plant_energy_mult = 0.0
             _meat_energy_mult = 1.5

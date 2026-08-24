@@ -6,6 +6,8 @@ var _creature: Creature = null
 var _parent: Creature = null
 var _relatives_ids: Array[int] = []
 
+var _child_energy_reserve: float = 0.0
+
 
 var relatives_ids: Array[int]:
     get:
@@ -17,8 +19,25 @@ var parent: Creature:
         return _parent
 
 
+var ready_for_breeding: bool:
+    get:
+        return is_equal_approx(_child_energy_reserve, DefaultValues.STARTING_ENERGY)
+
+
+var child_energy_reserve: float:
+    get:
+        return _child_energy_reserve
+
+
+func gain_energy(income_energy: float):
+    _child_energy_reserve = min(_child_energy_reserve + income_energy, DefaultValues.STARTING_ENERGY)
+
+
 func make_child() -> Creature:
-    _creature.energy.on_gave_birth()
+    if not ready_for_breeding:
+        return null
+
+    _child_energy_reserve = 0.0
 
     var child_config = Mutator.mutate(_creature.config)
     var child = Spawner.spawn_creature(_creature.global_position, child_config)

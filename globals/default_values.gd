@@ -14,9 +14,10 @@ const SPRINT_STAMINA_CONSUMPTION: float = 10.0
 const VISION_RADIUS: float = 600.0
 
 const MAX_ENERGY: float = 300.0
+const STARTING_ENERGY: float = 120.0
 const GENERAL_ENERGY_CONSUMPTION: float = 0.5
 const MOVEMENT_ENERGY_CONSUMPTION: float = 0.03
-const BIRTH_ENERGY_COST: float = 120.0
+const CHILD_ENERGY_INCOME_COEF: float = 0.2
 
 
 const ATTACK_COOLDOWN: float = 1.0
