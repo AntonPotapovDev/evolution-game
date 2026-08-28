@@ -34,6 +34,69 @@ position = Vector2(1372, 1541)
 [node name="Field7" parent="." unique_id=297335994 instance=ExtResource("4_uufbk")]
 position = Vector2(2139, 79)
 
+[node name="Field22" parent="." unique_id=701793785 instance=ExtResource("4_uufbk")]
+position = Vector2(3020, 1918)
+
+[node name="Field23" parent="." unique_id=1633387476 instance=ExtResource("4_uufbk")]
+position = Vector2(1728, -2440)
+
+[node name="Field24" parent="." unique_id=1701280946 instance=ExtResource("4_uufbk")]
+position = Vector2(2013, -1706)
+
+[node name="Field25" parent="." unique_id=1634385160 instance=ExtResource("4_uufbk")]
+position = Vector2(2489, -2665)
+
+[node name="Field26" parent="." unique_id=2055421352 instance=ExtResource("4_uufbk")]
+position = Vector2(945, -2042)
+
+[node name="Field27" parent="." unique_id=1502909363 instance=ExtResource("4_uufbk")]
+position = Vector2(569, -2846)
+
+[node name="Field28" parent="." unique_id=1058852112 instance=ExtResource("4_uufbk")]
+position = Vector2(3576, 1174)
+
+[node name="Field8" parent="." unique_id=1267294387 instance=ExtResource("4_uufbk")]
+position = Vector2(1329, 2971)
+
+[node name="Field9" parent="." unique_id=1666907057 instance=ExtResource("4_uufbk")]
+position = Vector2(-3137, 2490)
+
+[node name="Field10" parent="." unique_id=1752577313 instance=ExtResource("4_uufbk")]
+position = Vector2(-2292, 2920)
+
+[node name="Field11" parent="." unique_id=1338545430 instance=ExtResource("4_uufbk")]
+position = Vector2(-2319, 1972)
+
+[node name="Field12" parent="." unique_id=856007931 instance=ExtResource("4_uufbk")]
+position = Vector2(-3161, 1603)
+
+[node name="Field13" parent="." unique_id=1962818320 instance=ExtResource("4_uufbk")]
+position = Vector2(422, 3458)
+
+[node name="Field14" parent="." unique_id=2107608444 instance=ExtResource("4_uufbk")]
+position = Vector2(1352, 3850)
+
+[node name="Field15" parent="." unique_id=856319621 instance=ExtResource("4_uufbk")]
+position = Vector2(-2338, -1162)
+
+[node name="Field16" parent="." unique_id=1351901520 instance=ExtResource("4_uufbk")]
+position = Vector2(-3486, -1746)
+
+[node name="Field17" parent="." unique_id=1773671085 instance=ExtResource("4_uufbk")]
+position = Vector2(-3170, -868)
+
+[node name="Field18" parent="." unique_id=1622778612 instance=ExtResource("4_uufbk")]
+position = Vector2(-2590, -2193)
+
+[node name="Field19" parent="." unique_id=842355258 instance=ExtResource("4_uufbk")]
+position = Vector2(-3721, -244)
+
+[node name="Field20" parent="." unique_id=1233362500 instance=ExtResource("4_uufbk")]
+position = Vector2(-2500, -277)
+
+[node name="Field21" parent="." unique_id=871845488 instance=ExtResource("4_uufbk")]
+position = Vector2(-1781, -1866)
+
 [node name="Creature" parent="." unique_id=950496937 instance=ExtResource("2_e08lw")]
 position = Vector2(205, 876)
 

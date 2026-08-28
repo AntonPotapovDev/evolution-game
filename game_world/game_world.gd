@@ -39,3 +39,6 @@ func _init_fields():
         var field = node as Field
         if field:
             field.init()
+
+func _draw():
+    draw_circle(Vector2.ZERO, 5000.0, Color.YELLOW, false, 2.0)
