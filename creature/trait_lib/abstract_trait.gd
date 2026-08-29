@@ -16,5 +16,5 @@ var description: String:
         return _description
 
 
-func patch_config(_config: CreatureConfig):
+func patch_blueprint(_blueprint: CreatureBlueprint):
     pass

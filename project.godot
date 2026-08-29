@@ -19,7 +19,6 @@ config/icon="res://assets/icon.svg"
 [autoload]
 
 Spawner="*uid://dmjmbpbf4a3ag"
-Mutator="*uid://d02vrmc38shyh"
 EventBus="*uid://dlbena1p3v3ap"
 CreatureSelecttionManager="*uid://l75478hqcdy7"
 

@@ -2,8 +2,8 @@ class_name SharpVisionTrait
 extends AbstractTrait
 
 
-func patch_config(config: CreatureConfig):
-    config.vision_radius *= 1.5
+func patch_blueprint(blueprint: CreatureBlueprint):
+    blueprint.vision_radius_mult += 0.5
 
 
 func _init():

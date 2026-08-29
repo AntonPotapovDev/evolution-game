@@ -2,25 +2,23 @@ class_name Eating
 extends RefCounted
 
 
+class Config extends RefCounted:
+    var plant_energy_multiplier: float
+    var meat_energy_multiplier: float
+
+
 var _creature: Creature
-
-var _plant_energy_mult: float
-var _meat_energy_mult: float
+var _config: Config
 
 
-var plant_energy_multiplier: float:
+var config: Config:
     get:
-        return _plant_energy_mult
+        return _config
 
 
-var meat_energy_multiplier: float:
-    get:
-        return _meat_energy_mult
-
-
-func _init(creature: Creature):
+func _init(creature: Creature, init_config: Config):
     _creature = creature
-    _init_energy_multipliers()
+    _config = init_config
 
 
 func eat_food_if_can(food: AbstractFood):
@@ -29,16 +27,3 @@ func eat_food_if_can(food: AbstractFood):
 
     if _creature.overlaps_area(food):
         food.consume(_creature)
-
-
-func _init_energy_multipliers():
-    match _creature.config.diet_phase:
-        CreatureConfig.DietPhase.HERBIVORE:
-            _plant_energy_mult = 1.5
-            _meat_energy_mult = 0.0
-        CreatureConfig.DietPhase.OMNIVORE:
-            _plant_energy_mult = 1.0
-            _meat_energy_mult = 1.0
-        CreatureConfig.DietPhase.CARNIVORE:
-            _plant_energy_mult = 0.0
-            _meat_energy_mult = 1.5

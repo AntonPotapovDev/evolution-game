@@ -49,9 +49,9 @@ func _update_label(label: Label, title: StringName, separator: String, value: St
 
 
 func _update_diet_label():
-    var diet_phase = _display_creature.config.diet_phase
-    _update_label(_diet_label, Text.DIET, ": ", str(Text.LABEL_BY_DIET[diet_phase]))
-    _diet_label.tooltip_text = str(Text.TOOLTIP_BY_DIET[diet_phase])
+    var diet_type = _display_creature.config.diet_type
+    _update_label(_diet_label, Text.DIET, ": ", str(Text.LABEL_BY_DIET[diet_type]))
+    _diet_label.tooltip_text = str(Text.TOOLTIP_BY_DIET[diet_type])
 
 
 func _update_child_progress_label():
@@ -70,9 +70,9 @@ func _clear_trait_list():
         trait_item.queue_free()
 
 
-func _populate_trait_list(config: CreatureConfig):
-    for trait_id in config.trait_ids:
-        var creature_trait = TraitPool.get_by_id(trait_id)
+func _populate_trait_list(creature: Creature):
+    for trait_id in creature.genome.all_traits:
+        var creature_trait = TraitPool.get_trait(trait_id)
         var trait_item = TRAIT_ITEM_SCENE.instantiate() as TraitItem
         trait_item.init(creature_trait.name, creature_trait.description)
         _trait_list.add_child(trait_item)
@@ -101,4 +101,4 @@ func _on_selection_changed(creature: Creature):
     _update_diet_label()
 
     _clear_trait_list()
-    _populate_trait_list(creature.config)
+    _populate_trait_list(creature)

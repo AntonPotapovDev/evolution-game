@@ -11,6 +11,7 @@ signal died
 
 var _id: int
 var _config: CreatureConfig = null
+var _genome: Genome = null
 
 var _ai: Ai = null
 var _memory: Memory = null
@@ -35,6 +36,11 @@ var id: int:
 var config: CreatureConfig:
     get:
         return _config
+
+
+var genome: Genome:
+    get:
+        return _genome
 
 
 var health: Health:
@@ -92,14 +98,15 @@ var selection_control: CreatureSelectionControl:
         return _selection_control
 
 
-func init(creature_config: CreatureConfig, new_id: int):
+func init(blueprint: CreatureBlueprint, new_id: int):
     if _config:
         return
 
     z_index = Layers.Layer.CREATURE
 
     _id = new_id
-    _config = creature_config
+    _config = blueprint.config
+    _genome = blueprint.genome
 
     _init_creature_color(_get_creature_color())
     _init_node_components()
@@ -128,7 +135,7 @@ func _init_simple_components():
     _energy = Energy.new(self, _config.energy_config)
     _movement = Movement.new(self, _config.movement_config, $MovingAdviser)
     _stamina = Stamina.new(self, _config.stamina_config)
-    _eating = Eating.new(self)
+    _eating = Eating.new(self, _config.eating_config)
     _breeding = Breeding.new(self)
     _death = Death.new(self)
     _memory = Memory.new(self)
@@ -141,12 +148,12 @@ func _init_creature_color(color: Color):
 
 
 func _get_creature_color() -> Color:
-    match _config.diet_phase:
-        CreatureConfig.DietPhase.HERBIVORE:
+    match _config.diet_type:
+        CreatureConfig.DietType.HERBIVORE:
             return Color.GREEN
-        CreatureConfig.DietPhase.OMNIVORE:
+        CreatureConfig.DietType.OMNIVORE:
             return Color.CYAN
-        CreatureConfig.DietPhase.CARNIVORE:
+        CreatureConfig.DietType.CARNIVORE:
             return Color.TOMATO
         _:
             return Color.WHITE

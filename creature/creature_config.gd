@@ -2,16 +2,16 @@ class_name CreatureConfig
 extends RefCounted
 
 
-enum DietPhase {
+enum DietType {
     HERBIVORE,
     OMNIVORE,
     CARNIVORE
 }
 
 
-var diet_phase: DietPhase
-var trait_ids: Array[int]
+var diet_type: DietType
 var vision_radius: float
+var eating_config: Eating.Config
 var movement_config: Movement.Config
 var stamina_config: Stamina.Config
 var energy_config: Energy.Config
@@ -20,12 +20,12 @@ var moving_to_food_policy: Movement.Policy
 
 var diet: Array[StringName]:
     get:
-        match diet_phase:
-            DietPhase.HERBIVORE:
+        match diet_type:
+            DietType.HERBIVORE:
                 return [ Groups.PLANT_FOOD ] as Array[StringName]
-            DietPhase.CARNIVORE:
+            DietType.CARNIVORE:
                 return [ Groups.MEAT_FOOD ] as Array[StringName]
-            DietPhase.OMNIVORE:
+            DietType.OMNIVORE:
                 return [ Groups.PLANT_FOOD, Groups.MEAT_FOOD ] as Array[StringName]
             _:
                 return [] as Array[StringName]
@@ -33,15 +33,15 @@ var diet: Array[StringName]:
 
 var is_hunter: bool:
     get:
-        return diet_phase == DietPhase.CARNIVORE
+        return diet_type == DietType.CARNIVORE
 
 
 static func make_default() -> CreatureConfig:
     var config = CreatureConfig.new()
 
-    config.diet_phase = DietPhase.HERBIVORE
-    config.trait_ids = [] as Array[int]
+    config.diet_type = DietType.HERBIVORE
     config.vision_radius = DefaultValues.VISION_RADIUS
+    config.eating_config = _make_default_eating_config()
     config.movement_config = _make_default_movement_config()
     config.stamina_config = _make_default_stamina_config()
     config.energy_config = _make_default_energy_config()
@@ -70,4 +70,11 @@ static func _make_default_stamina_config() -> Stamina.Config:
     config.max_stamina = DefaultValues.MAX_STAMINA
     config.stamina_restore_rate = DefaultValues.STAMINA_RESTORE_RATE
     config.sprint_consumption = DefaultValues.SPRINT_STAMINA_CONSUMPTION
+    return config
+
+
+static func _make_default_eating_config() -> Eating.Config:
+    var config = Eating.Config.new()
+    config.plant_energy_multiplier = 1.0
+    config.meat_energy_multiplier = 1.0
     return config

@@ -28,9 +28,9 @@ func _init_cretures():
         if not creature:
             continue
 
-        var creature_config = CreatureConfig.make_default()
-        creature.init(creature_config, Spawner.gen_creature_id())
-        EventBus.creature_spawned.emit(creature_config)
+        var blueprint = CreatureBlueprint.make_default()
+        creature.init(blueprint, Spawner.gen_creature_id())
+        EventBus.creature_spawned.emit(creature.config)
 
 
 func _init_fields():

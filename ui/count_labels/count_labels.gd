@@ -16,22 +16,22 @@ func _ready() -> void:
     EventBus.creature_spawned.connect(_on_creature_spawned)
     EventBus.creature_died.connect(_on_creature_died)
 
-    _update_label(_herbi_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.HERBIVORE], _herbi_count)
-    _update_label(_omni_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.OMNIVORE], _omni_count)
-    _update_label(_carni_label, Text.LABEL_BY_DIET[CreatureConfig.DietPhase.CARNIVORE], _carni_count)
+    _update_label(_herbi_label, Text.LABEL_BY_DIET[CreatureConfig.DietType.HERBIVORE], _herbi_count)
+    _update_label(_omni_label, Text.LABEL_BY_DIET[CreatureConfig.DietType.OMNIVORE], _omni_count)
+    _update_label(_carni_label, Text.LABEL_BY_DIET[CreatureConfig.DietType.CARNIVORE], _carni_count)
 
 
 func _update_hud_with_config(config: CreatureConfig, delta: int):
-    var new_title = Text.LABEL_BY_DIET[config.diet_phase]
+    var new_title = Text.LABEL_BY_DIET[config.diet_type]
 
-    match config.diet_phase:
-        CreatureConfig.DietPhase.HERBIVORE:
+    match config.diet_type:
+        CreatureConfig.DietType.HERBIVORE:
             _herbi_count += delta
             _update_label(_herbi_label, new_title, _herbi_count)
-        CreatureConfig.DietPhase.OMNIVORE:
+        CreatureConfig.DietType.OMNIVORE:
             _omni_count += delta
             _update_label(_omni_label, new_title, _omni_count)
-        CreatureConfig.DietPhase.CARNIVORE:
+        CreatureConfig.DietType.CARNIVORE:
             _carni_count += delta
             _update_label(_carni_label, new_title, _carni_count)
 

@@ -11,13 +11,13 @@ const DIET: StringName = &"Diet"
 
 
 const LABEL_BY_DIET: Dictionary = {
-    CreatureConfig.DietPhase.HERBIVORE: &"Herbivore",
-    CreatureConfig.DietPhase.OMNIVORE: &"Omnivore",
-    CreatureConfig.DietPhase.CARNIVORE: &"Predator",
+    CreatureConfig.DietType.HERBIVORE: &"Herbivore",
+    CreatureConfig.DietType.OMNIVORE: &"Omnivore",
+    CreatureConfig.DietType.CARNIVORE: &"Predator",
 }
 
 const TOOLTIP_BY_DIET: Dictionary = {
-    CreatureConfig.DietPhase.HERBIVORE: &"Only plants",
-    CreatureConfig.DietPhase.OMNIVORE: &"Plants and meat",
-    CreatureConfig.DietPhase.CARNIVORE: &"Only meat, hunts",
+    CreatureConfig.DietType.HERBIVORE: &"Only plants",
+    CreatureConfig.DietType.OMNIVORE: &"Plants and meat",
+    CreatureConfig.DietType.CARNIVORE: &"Only meat, hunts",
 }

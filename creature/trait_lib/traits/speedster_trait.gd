@@ -2,9 +2,9 @@ class_name SpeedsterTrait
 extends AbstractTrait
 
 
-func patch_config(config: CreatureConfig):
-    config.movement_config.normal_speed *= 1.5
-    config.movement_config.sprint_speed *= 1.5
+func patch_blueprint(blueprint: CreatureBlueprint):
+    blueprint.movement_normal_speed_mult += 0.5
+    blueprint.movement_sprint_speed_mult += 0.5
 
 
 func _init():

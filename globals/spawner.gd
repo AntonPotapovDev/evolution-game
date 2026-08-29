@@ -15,11 +15,11 @@ func init(game_world: Node2D):
         _game_world = game_world
 
 
-func spawn_creature(global_position: Vector2, config: CreatureConfig) -> Creature:
+func spawn_creature(global_position: Vector2, blueprint: CreatureBlueprint) -> Creature:
     var instance = CREATURE_SCENE.instantiate() as Creature
-    instance.init(config, gen_creature_id())
+    instance.init(blueprint, gen_creature_id())
     _add_object_to_scene(instance, global_position)
-    EventBus.creature_spawned.emit(config)
+    EventBus.creature_spawned.emit(instance.config)
     return instance
 
 

@@ -6,7 +6,7 @@ const ENERGY_BOOST: float = 100.0
 
 
 func consume(consuming_creature: Creature):
-    _consume(consuming_creature, consuming_creature.eating.meat_energy_multiplier)
+    _consume(consuming_creature, consuming_creature.eating.config.meat_energy_multiplier)
 
 
 func _ready() -> void:

@@ -39,8 +39,8 @@ func make_child() -> Creature:
 
     _child_energy_reserve = 0.0
 
-    var child_config = Mutator.mutate(_creature.config)
-    var child = Spawner.spawn_creature(_creature.global_position, child_config)
+    var blueprint = CreatureBlueprint.make_from_genome(_creature.genome.replicate_mutated())
+    var child = Spawner.spawn_creature(_creature.global_position, blueprint)
     child.get_parent().move_child(child, 0)
 
     child.breeding.relatives_ids.append(_creature.id)

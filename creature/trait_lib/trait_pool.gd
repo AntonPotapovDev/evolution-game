@@ -2,34 +2,51 @@ class_name TraitPool
 extends RefCounted
 
 
-static var _general_pool: Array[AbstractTrait] = [
-    SpeedsterTrait.new(),
-    SharpVisionTrait.new(),
-    FoodRush.new()
-] as Array[AbstractTrait]
+enum Trait {
+    HERBIVORE,
+    OMNIVORE,
+    CARNIVORE,
+
+    SPEEDSTER,
+    SHARP_VISION,
+    FOOD_RUSH,
+}
 
 
-static var _traits_by_id: Dictionary
-static var _trait_list: Array[int]
+static var _all_traits: Dictionary = {
+    Trait.HERBIVORE: HerbivoreTrait.new(),
+    Trait.OMNIVORE: OmnivoreTrait.new(),
+    Trait.CARNIVORE: CarnivoreTrait.new(),
+
+    Trait.SPEEDSTER: SpeedsterTrait.new(),
+    Trait.SHARP_VISION: SharpVisionTrait.new(),
+    Trait.FOOD_RUSH: FoodRushTrait.new()
+}
 
 
-static func _static_init() -> void:
-    var id = 0
-    for creature_trait in _general_pool:
-        _traits_by_id.set(id, creature_trait)
-        _trait_list.append(id)
-        id += 1
+static var _general_pool: Array[Trait] = [
+    Trait.SPEEDSTER,
+    Trait.SHARP_VISION,
+    Trait.FOOD_RUSH
+] as Array[Trait]
 
 
-static func pick_id(conifg: CreatureConfig) -> Variant:
-    var available_ids = _trait_list.filter(
-        func(id) -> bool: return not conifg.trait_ids.has(id))
-
-    if available_ids.is_empty():
-        return null
-
-    return available_ids.pick_random()
+static var _diet_pool: Array[Trait] = [
+    Trait.HERBIVORE,
+    Trait.OMNIVORE,
+    Trait.CARNIVORE
+] as Array[Trait]
 
 
-static func get_by_id(id: int) -> AbstractTrait:
-    return _traits_by_id[id]
+static var general_traits: Array[Trait]:
+    get:
+        return _general_pool
+
+
+static var diet_traits: Array[Trait]:
+    get:
+        return _diet_pool
+
+
+static func get_trait(trait_id: Trait) -> AbstractTrait:
+    return _all_traits[trait_id]
