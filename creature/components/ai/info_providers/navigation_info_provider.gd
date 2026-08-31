@@ -2,9 +2,8 @@ class_name NavigationInfoProvider
 extends RefCounted
 
 
-const WORLD_RADIUS: float = 5000.0
 const OFFSET: float = 64.0
-const NAVIGATION_RADIUS: float = WORLD_RADIUS - OFFSET
+const NAVIGATION_RADIUS: float = GameWord.WORLD_RADIUS - OFFSET
 
 const MIN_ANGLE_STEP: float = deg_to_rad(50.0)
 const MAX_ANGLE_STEP: float = deg_to_rad(60.0)

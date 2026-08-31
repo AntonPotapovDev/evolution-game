@@ -2,6 +2,9 @@ class_name GameWord
 extends Node2D
 
 
+const WORLD_RADIUS = 5000.0
+
+
 @onready var _camera: GameCamera = $GameCamera
 
 
@@ -41,4 +44,4 @@ func _init_fields():
             field.init()
 
 func _draw():
-    draw_circle(Vector2.ZERO, 5000.0, Color.YELLOW, false, 2.0)
+    draw_circle(Vector2.ZERO, WORLD_RADIUS, Color.YELLOW, false, 2.0)
