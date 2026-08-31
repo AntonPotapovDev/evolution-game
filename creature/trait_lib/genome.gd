@@ -57,7 +57,7 @@ func _mutate_diet():
         TraitPool.Trait.HERBIVORE:
             _diet_trait = TraitPool.Trait.OMNIVORE
         TraitPool.Trait.OMNIVORE:
-            _diet_trait = [TraitPool.Trait.HERBIVORE, TraitPool.Trait.OMNIVORE].pick_random()
+            _diet_trait = [TraitPool.Trait.HERBIVORE, TraitPool.Trait.CARNIVORE].pick_random()
         TraitPool.Trait.CARNIVORE:
             _diet_trait = TraitPool.Trait.OMNIVORE
         _:
